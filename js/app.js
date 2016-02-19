@@ -50,9 +50,10 @@ function onScoresLoaded(jsonData) {
 
 	//alert(data.Meta);
 
-	setLoadScoresInterval();
+	/** RELOAD UIT **/
+	//setLoadScoresInterval();
 
-	console.log("hallo");
+	//console.log("hallo");
 }
 
 function setLoadScoresInterval(ms) {
@@ -68,8 +69,9 @@ function setLoadScoresInterval(ms) {
 
 function loadNews() {
 
+	/** RELOAD UIT **/
 	//Nieuwe interval starten
-	setLoadNewsInterval();
+	//setLoadNewsInterval();
 
 	doJSONP('onNewsLoaded', 'getNews?ts=0');
 }

@@ -22,13 +22,11 @@
 
 </div>
 
-<div class="row" id="result">Michiel</div>
-
 <div class="row menu">
 
 	<div class="menu-button active" id="button-nieuws" onclick="toggle('nieuws')">Nieuws</div>
 	<div class="menu-button" id="button-scores" onclick="toggle('scores')">Deelnemers</div>
-	<!-- <div class="menu-button" id="button-hup" 		onclick="toggle('hup')">Hup!</div> -->
+	<div class="menu-button" id="button-hup" 		onclick="toggle('hup')">Hup!</div>
 
 </div>
 
@@ -41,27 +39,6 @@
 </div>
 
 <div class="row screen" id="hup">DIT IS HUP!</div>
-
-<script>
-
-	//function initialize() {
-	//
-	//	var feed = new google.feeds.Feed("http://fastpshb.appspot.com/feed/1/fastpshb");
-	//	feed.load(function(result) {
-	//	if (!result.error) {
-	//	var container = $("#rssfeed");
-	//	for (var i = 0; i < result.feed.entries.length; i++) {
-	//	var entry = result.feed.entries[i];
-	//	alert(entry.title);
-	//	var div = document.createElement("div");
-	//	div.appendChild(document.createTextNode(entry.title));
-	//	//	$(container).append(div);
-	//	}
-	//	}
-	//	});
-	//	}
-	//
-</script>
 
 <!-- jQuery -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -88,50 +65,10 @@
 		//document.addEventListener("resume", onResume, false);
 		//document.addEventListener("pause", onPause, false);
 
-		jQuery.getFeed({
-			url: 'http://rss.slashdot.org/Slashdot/slashdot',
-			success: function(feed) {
-
-				jQuery('#result').append('<h2>'
-					+ '<a href="'
-					+ feed.link
-					+ '">'
-					+ feed.title
-					+ '</a>'
-					+ '</h2>');
-
-				var html = '';
-
-				for(var i = 0; i < feed.items.length && i < 5; i++) {
-
-					var item = feed.items[i];
-
-					html += '<h3>'
-						+ '<a href="'
-						+ item.link
-						+ '">'
-						+ item.title
-						+ '</a>'
-						+ '</h3>';
-
-					html += '<div class="updated">'
-						+ item.updated
-						+ '</div>';
-
-					html += '<div>'
-						+ item.description
-						+ '</div>';
-				}
-
-				jQuery('#result').append(html);
-			}
-		});
-
 	});
 
 </script>
 
 </body>
-
 
 </html>
