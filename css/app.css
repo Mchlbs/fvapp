@@ -1,0 +1,219 @@
+.row, body, img, div {
+
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+
+	width: 101.5%;
+	background-color: #d82225;
+	overflow: hidden;
+}
+
+#logo {
+	width: 50%;
+	overflow: hidden;
+	display: inline-block;
+	margin: -0.65em;
+}
+
+#logo img {
+
+	width: 100%;
+}
+
+#moneycount {
+
+	width: 50%;
+	top: 0;
+	position:absolute;
+	display: inline-block;
+	text-align: right;
+	font-size: 4em;
+	color: white;
+}
+
+/** Menu **/
+.menu-button {
+
+	height: 50px;
+	width: 50%;
+	float: left;
+	text-align: center;
+	padding: 15px 0 0 0;
+	margin: 0;
+	border: 0;
+	background: #d9d9d9; /* For browsers that do not support gradients */
+	background: linear-gradient(#d3d3d3, #707070); /* Standard syntax */
+	color: white;
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.menu-button.active {
+
+	background: #d9d9d9; /* For browsers that do not support gradients */
+	background: linear-gradient(black, #d9d9d9); /* Standard syntax */
+	color: #d9d9d9;
+}
+
+.screen {
+
+	margin-top: 100px;
+}
+
+#nieuws {
+
+	width: 90%;
+	margin: auto;
+	padding-top: 100px;
+}
+
+.blogEntry h1 {
+
+	color: #d82225;
+}
+
+.blogEntry {
+
+	background-color: #F7F7F7;
+	padding: 3%;
+	margin: 1%;
+}
+
+
+#button-nieuws { margin-right: 0px;}
+#button-scores { }
+#button-hup 	 {  }
+
+/** Screens **/
+#scores, #hup {
+	display: none;
+}
+/*****************************************************************/
+/*************************** RESPONSIVE **************************/
+/*****************************************************************/
+@media (max-width: 1000px) {
+
+	#moneycount {
+
+		font-size: 2.2em;
+	}
+
+}
+
+@media (max-width: 640px) {
+
+	#moneycount {
+
+		font-size: 1em;
+	}
+
+}
+
+
+/* Bij nieuwe aanpassen: tr first-child => .CSSTableGenerator thead td{ */
+.CSSTableGenerator {
+	margin:0;
+	padding:0px;
+	width:100%;
+	/* box-shadow: 10px 10px 5px #888888; */
+	/*  border:1px solid #7f0000; */
+
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}.CSSTableGenerator table{
+	 border-collapse: collapse;
+	 border-spacing: 0;
+	 width:100%;
+	 height:100%;
+	 margin:0px;padding:0px;
+ }.CSSTableGenerator tr:last-child td:last-child {
+		-moz-border-radius-bottomright:0px;
+		-webkit-border-bottom-right-radius:0px;
+		border-bottom-right-radius:0px;
+	}
+.CSSTableGenerator table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}.CSSTableGenerator tr:last-child td:first-child{
+	 -moz-border-radius-bottomleft:0px;
+	 -webkit-border-bottom-left-radius:0px;
+	 border-bottom-left-radius:0px;
+ }.CSSTableGenerator tr:hover td{
+
+	}
+.CSSTableGenerator tr:nth-child(odd){ background-color:#ffaaaa; }
+.CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+																																				vertical-align:middle;
+
+
+																																				/* border:1px solid #7f0000; */
+																																				border-width:0px 1px 1px 0px;
+																																				text-align:left;
+																																				padding:7px;
+																																				font-size:14px;
+																																				font-family:Arial Black;
+																																				font-weight:normal;
+																																				color:#000000;
+
+																																			}
+
+.CSSTableGenerator tr:last-child td{
+																																				 border-width:0px 1px 0px 0px;
+																																			 }.CSSTableGenerator tr td:last-child{
+																																					border-width:0px 0px 1px 0px;
+																																				}.CSSTableGenerator tr:last-child td:last-child{
+																																					 border-width:0px 0px 0px 0px;
+
+																																				 }
+
+.CSSTableGenerator thead th{
+	background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+	background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");	background: -o-linear-gradient(top,#ff5656,7f0000);
+
+	background-color:#ff5656;
+	border:0px solid #7f0000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:19px;
+	font-family:Arial Black;
+	font-weight:normal;
+	color:#ffffff;
+}
+/*
+.CSSTableGenerator tr:hover td{
+	background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+	background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");	background: -o-linear-gradient(top,#ff5656,7f0000);
+
+	background-color:#ff5656;
+}
+*/
+.CSSTableGenerator tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.CSSTableGenerator tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
