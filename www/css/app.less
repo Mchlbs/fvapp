@@ -1,0 +1,256 @@
+@import "variables.less";
+
+* {
+	box-sizing: border-box;
+}
+
+.screen:not(:first-child){
+	display: none;
+}
+
+.clear:after {
+	display: table;
+	content: " ";
+	clear: both;
+}
+
+body {
+	font-family: @fontStack;
+	font-size: @fontSize;
+	color: @fontColor;
+	margin: 0;
+	padding-bottom: 25px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-rendering: auto;
+}
+
+h1, h2, h3, h4 {
+	font-weight: bold;
+	text-align: left;
+	line-height: 1.2em;
+}
+
+h1, h2 {
+	margin-bottom: 5px;
+}
+
+h3, h4 {
+	margin-bottom: 28px;
+}
+
+h1 {
+	font-size: 1.6em;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+	color: @secondaryColor;
+	text-transform: uppercase;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+p {
+	margin: 10px 0;
+	line-height: @lineHeight;
+}
+
+#moneycount {
+	background: @primaryColor;
+	color: #fff;
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+#button-nieuws {
+	background: url("../img/icons/news.png") no-repeat center center;
+}
+
+#button-scores {
+	background: url("../img/icons/bike.png") no-repeat center center;
+}
+
+#button-hup {
+	background: url("../img/icons/megaphone.png") no-repeat center center;
+}
+
+.menu {
+	.menu-button {
+		float: left;
+		width: 33.333333%;
+		font-size: 1em;
+		background-color: #eee !important;
+		text-align: center;
+		height: 70px;
+		&.active {
+			.ShadowInner(0px, 1px, 5px, rgba(0, 0, 0, 0.21));
+			background-color: @grey2 !important;
+		}
+	}
+}
+
+.icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto;
+	vertical-align: bottom;
+	&.iconSmall {
+		width: 24px;
+		height: 24px;
+	}
+	&.iconNews {
+		background: url("../img/icons/news.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconBike {
+		background: url("../img/icons/bike.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMegaphone {
+		background: url("../img/icons/megaphone.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconGoal {
+		background: url("../img/icons/goal.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMountain {
+		background: url("../img/icons/mountain.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconCoin {
+		background: url("../img/icons/coins.png") no-repeat;
+		background-size: contain;
+	}
+}
+
+.legend {
+	margin: 20px 0;
+}
+
+.legendItem {
+	.icon {
+		display: inline-block;
+	}
+}
+
+.mainContent {
+	padding: 0 15px;
+}
+
+.infoBlock {
+	background: @colorDeelnemer;
+	padding: 5px 15px;
+	&:not(:last-child) {
+		margin-bottom: 15px;
+	}
+}
+
+.deelnemerOverzicht {
+	font-size: 1.1em;
+	.details {
+		margin-top: 10px;
+		> * {
+			width: 33.33333%;
+			float: left;
+		}
+		.detail {
+			position: relative;
+			line-height: 20px;
+			padding-left: 20px;
+			&:not(:last-child) {
+				border-right: 1px solid @grey1;
+			}
+			&:before {
+				position: absolute;
+				left: 0;
+				top: 0;
+				content: ' ';
+				text-align: right;
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				margin-right: 5px;
+			}
+			&:not(:first-child):before {
+				left: 5px;
+			}
+		}
+		.doel:before {
+			background: url("../img/icons/goal.png") no-repeat;
+			background-size: cover;
+		}
+		.gehaald {
+			padding-left: 30px;
+			&:before {
+				background: url("../img/icons/mountain.png") no-repeat;
+				background-size: cover;
+			}
+		}
+		.bedrag {
+			padding-left: 35px;
+			&:before {
+				content: '\20AC';
+				width: 30px;
+				margin-right: 0;
+				background: url("../img/icons/coins.png") no-repeat;
+				background-size: contain;
+			}
+		}
+
+	}
+}
+
+.sendHupWrapper {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: @secondaryColor;
+	color: #fff;
+	padding: 10px 20px;
+}
+
+.sendHupTrigger {
+	text-align: center;
+	font-weight: bold;
+}
+
+.hupFormWrapper {
+	display: none;
+	margin-top: 10px;
+	input, textarea {
+		border: none;
+		padding: 5px;
+		width: 100%;
+		&:focus {
+			outline: none;
+		}
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
+	input[type="submit"] {
+		.RoundedCorners(50%);
+		width: 45px;
+		height: 45px;
+		display: table;
+		margin: 0 auto;
+		font-weight: bold;
+		color: transparent;
+		background: @primaryColor url("../img/icons/send.png") no-repeat center center;
+		background-size: 30px;
+		.Rotate(-90deg);
+	}
+}

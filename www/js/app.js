@@ -196,6 +196,18 @@ function toggle(someID) {
 	$("#button-" + someID).addClass('active');
 }
 
+$('.toggleSlide').on('click', function(){
+	var targetClass = "." + $(this).data('target');
+	$(targetClass).slideToggle(200);
+});
+
+$('body').click(function(e) {
+		var targetClass = "." + $('.toggleSlide').data('target');
+    if (!$(e.target).closest(targetClass).length && !$(e.target).hasClass('toggleSlide')){
+        $(targetClass).slideUp();
+    }
+});
+
 /********************************************************************************
  ******************************* RSS READER *************************************
  ********************************************************************************/
