@@ -7,13 +7,15 @@ var EDITION_ID = 5;
 var newsInterval;
 var scoreInterval;
 
-function onPause() {
+function onPause()
+{
 
 	clearInterval(newsInterval);
 	clearInterval(scoreInterval);
 }
 
-function onResume() {
+function onResume()
+{
 
 	setLoadNewsInterval();
 	setLoadScoresInterval();
@@ -21,12 +23,14 @@ function onResume() {
 
 //getScores?ts=1231&ed=5
 
-function loadScores() {
+function loadScores()
+{
 
 	doJSONP('onScoresLoaded', '');
 }
 
-function reloadScores() {
+function reloadScores()
+{
 
 //	var iTimeStamp = 0;
 //
@@ -38,7 +42,8 @@ function reloadScores() {
 	doJSONP('onScoresLoaded', '');
 }
 
-function onScoresLoaded(jsonData) {
+function onScoresLoaded(jsonData)
+{
 
 	//Oude interval clearen
 	clearInterval(newsInterval);
@@ -48,36 +53,41 @@ function onScoresLoaded(jsonData) {
 	//TimeStamp opslaan in de localstorage
 	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
 
-	alert(jsonData.Deelnemers);
-
+//	alert(jsonData.Deelnemers);
 	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
+	setScreenWidth();
 }
 
-function setLoadScoresInterval(ms) {
+function setLoadScoresInterval(ms)
+{
 
-	if (ms === undefined) {
+	if (ms === undefined)
+	{
 
 		ms = 3000;
 	}
 
-	newsInterval = setInterval(reloadScores, ms );
+	newsInterval = setInterval(reloadScores, ms);
 }
 
 
-function loadNews() {
+function loadNews()
+{
 
 	/** RELOAD UIT **/
-	//Nieuwe interval starten
-	//setLoadNewsInterval();
+		//Nieuwe interval starten
+		//setLoadNewsInterval();
 
 	doJSONP('onNewsLoaded', 'getNews?ts=0');
 }
 
-function reloadNews() {
+function reloadNews()
+{
 
 	var iTimeStamp = 0;
 
-	if (localStorage.getItem("lastNewsUpdate") > 0) {
+	if (localStorage.getItem("lastNewsUpdate") > 0)
+	{
 
 		iTimeStamp = localStorage.getItem("lastNewsUpdate");
 	}
@@ -85,29 +95,32 @@ function reloadNews() {
 	doJSONP('onNewsLoaded', 'getNews?ts=' + iTimeStamp);
 }
 
-function onNewsLoaded(jsonData) {
+function onNewsLoaded(jsonData)
+{
 
 	//Oude interval clearen
 	clearInterval(newsInterval);
 
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
-
 	//Nieuws laten zien
 	$('#nieuws').html(decoded);
+	setScreenWidth();
 
 	//TimeStamp opslaan in de localstorage
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
 }
 
-function setLoadNewsInterval(ms) {
+function setLoadNewsInterval(ms)
+{
 
-	if (ms === undefined) {
+	if (ms === undefined)
+	{
 
 		ms = 10000;
 	}
 
-	newsInterval = setInterval(reloadNews, ms );
+	newsInterval = setInterval(reloadNews, ms);
 }
 
 function loadHups() {
@@ -129,13 +142,16 @@ function onHupsLoaded(jsonData) {
 
 	//Hupjes zijn geladen: Laten zien
 	$('.hupOverview').html(jsonData.Hups);
+	setScreenWidth();
 }
 
 
 //Doe een JSONP-request
-function doJSONP(sCallBack, sExtraGetString) {
+function doJSONP(sCallBack, sExtraGetString)
+{
 
-	if (sExtraGetString.length > 5) {
+	if (sExtraGetString.length > 5)
+	{
 
 		sExtraGetString = '&' + sExtraGetString;
 
@@ -155,84 +171,65 @@ function doJSONP(sCallBack, sExtraGetString) {
 	head.removeChild(script);
 }
 
-//Callback Function
-function getScoreLijst(json)
-{
-	if(json !== undefined ) {
-
-		$('#chart').html("").json2html(json, transforms.scorelijst);
-	}
-}
-
-var transforms = {
-
-	'scorelijst': [
-		{ "tag" : "table",
-			"data-role" : "table",
-			"class" : "scoreList CSSTableGenerator ui-responsive",
-			"children" : [
-				{ "tag" : "thead",
-					"children" : [
-						{ "tag" : "tr",
-							"children" : [
-								{ "tag" : "th",
-									"html" : "Naam"
-								},
-								{ "tag" : "th",
-									"html" : "Doel"
-								},
-								{ "tag" : "th",
-									"html" : "Gehaald"
-								},
-								{ "tag" : "th",
-									"html" : "Bedrag"
-								}
-							]
-						}
-					]
-				},
-				{ "tag" : "tbody",
-					"children" : function() { return(json2html.transform(this.Deelnemers,transforms.deelnemers)); }
-				}
-			]
-		}
-	],
-
-	'deelnemers' : [
-		{ "tag":"tr","class":"deelnemer","children":[
-			{"tag":"td","class":"naam","html":"${naam}"},
-			{"tag":"td","class":"toppen","html":"${toppen}"},
-			{"tag":"td","class":"gehaaldetoppen","html":"${gehaaldetoppen}"},
-			{"tag":"td","class":"bedrag","html":"${bedrag}"}
-		]}
-	]
-};
-
 /********************************************************************************
-******************************* LAYOUT / UI *************************************
-********************************************************************************/
+ ******************************* LAYOUT / UI *************************************
+ ********************************************************************************/
 
-function toggle(someID) {
+function toggle(someID)
+{
 
-	$(".screen").hide();
 	$(".menu-button").removeClass('active');
-
-	$("#" + someID).show();
 	$("#button-" + someID).addClass('active');
+	var position;
+	$('.sendHupWrapper').stop().animate({'margin-bottom': '-50px'}, function ()
+	{
+		$(this).hide();
+	});
+	switch (someID)
+	{
+		case 'nieuws':
+			position = 0;
+			break;
+		case 'scores':
+			position = '-100%';
+			break;
+		case 'hup':
+			position = '-200%';
+			break;
+	}
+
+	$('.screenWrapper').animate({"left": position}, function ()
+	{
+		if(someID ==  'hup')	$('.sendHupWrapper').show().animate({'margin-bottom': 0});
+	});
 }
 
-$('.toggleSlide').on('click', function(){
+$('.toggleSlide').on('click', function ()
+{
 	var targetClass = "." + $(this).data('target');
 	$(targetClass).slideToggle(200);
 });
 
-$('body').click(function(e) {
-		var targetClass = "." + $('.toggleSlide').data('target');
-    if (!$(e.target).closest(targetClass).length && !$(e.target).hasClass('toggleSlide')){
-        $(targetClass).slideUp();
-    }
+$('body').click(function (e)
+{
+	var targetClass = "." + $('.toggleSlide').data('target');
+	if (!$(e.target).closest(targetClass).length && !$(e.target).hasClass('toggleSlide'))
+	{
+		$(targetClass).slideUp();
+	}
 });
 
+$(document).ready(function(){
+	setScreenWidth();
+});
+
+$(window).resize(function(){
+	setScreenWidth();
+});
+
+function setScreenWidth(){
+	$('.screen').css({"width": $(window).width()});
+}
 
 /********************************************************************************
  ******************************* RSS READER *************************************

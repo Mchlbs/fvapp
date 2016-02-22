@@ -4,10 +4,6 @@
 	box-sizing: border-box;
 }
 
-.screen:not(:first-child){
-	display: none;
-}
-
 .clear:after {
 	display: table;
 	content: " ";
@@ -43,6 +39,8 @@ h3, h4 {
 h1 {
 	font-size: 1.6em;
 	text-transform: uppercase;
+	border-left: 3px solid @primaryColor;
+	padding-left: 10px;
 }
 
 h2 {
@@ -65,6 +63,28 @@ p {
 	line-height: @lineHeight;
 }
 
+.mainContent {
+	overflow: hidden;
+	max-width: 100%;
+}
+
+//Screens
+.screenWrapper{
+	position: relative;
+	width: 9999px;
+}
+
+.screen{
+	float: left;
+	padding: 0 15px;
+	width: 320px;
+}
+
+.container{
+	max-width: 600px;
+	margin: 0 auto;
+}
+
 #moneycount {
 	background: @primaryColor;
 	color: #fff;
@@ -74,28 +94,47 @@ p {
 }
 
 #button-nieuws {
-	background: url("../img/icons/news.png") no-repeat center center;
+		background: url("../img/icons/megaphone-outline.png") no-repeat center center;
+	&.active{
+		background: url("../img/icons/megaphone-filled.png") no-repeat center center;
+	}
 }
 
 #button-scores {
-	background: url("../img/icons/bike.png") no-repeat center center;
+	background: url("../img/icons/bike-outline.png") no-repeat center center;
+	&.active{
+		background: url("../img/icons/bike-filled.png") no-repeat center center;
+	}
 }
 
 #button-hup {
-	background: url("../img/icons/megaphone.png") no-repeat center center;
+	background: url("../img/icons/cheer-outline.png") no-repeat center center;
+	&.active{
+		background: url("../img/icons/cheer-filled.png") no-repeat center center;
+	}
 }
 
 .menu {
+	padding-bottom: 10px;
 	.menu-button {
+		position: relative;
 		float: left;
 		width: 33.333333%;
 		font-size: 1em;
-		background-color: #eee !important;
+		background-color: #DCE1E1 !important;
 		text-align: center;
 		height: 70px;
+		.Transition(all, .3s, ease, 0s);
 		&.active {
-			.ShadowInner(0px, 1px, 5px, rgba(0, 0, 0, 0.21));
-			background-color: @grey2 !important;
+			-webkit-filter: invert(1);
+			filter: invert(1);
+			&:after {
+				position: absolute;
+				bottom: -8px;
+				left: 50%;
+				margin-left: -10px;
+				.triangle(down, 20px, 8px, #DCE1E1);
+			}
 		}
 	}
 }
@@ -145,24 +184,27 @@ p {
 	}
 }
 
-.mainContent {
-	padding: 0 15px;
-}
-
 .infoBlock {
-	background: @colorDeelnemer;
-	padding: 5px 15px;
+	background: @colorInfoBlock;
+	border-left: 3px solid @secondaryColor;
 	&:not(:last-child) {
 		margin-bottom: 15px;
+	}
+	.content{
+		padding: 5px 15px;
+	}
+	.header{
+		font-size: 1.1em;
+		background: @secondaryColor;
+		color: #fff;
+		padding:2px 15px;
 	}
 }
 
 .deelnemerOverzicht {
-	font-size: 1.1em;
 	.details {
-		margin-top: 10px;
 		> * {
-			width: 33.33333%;
+			width: 31%;
 			float: left;
 		}
 		.detail {
@@ -193,6 +235,7 @@ p {
 		}
 		.gehaald {
 			padding-left: 30px;
+			width: 38%;
 			&:before {
 				background: url("../img/icons/mountain.png") no-repeat;
 				background-size: cover;
@@ -212,7 +255,12 @@ p {
 	}
 }
 
+.hupOverview{
+	margin-top:20px;
+}
+
 .sendHupWrapper {
+	display: none;
 	position: fixed;
 	bottom: 0;
 	left: 0;
