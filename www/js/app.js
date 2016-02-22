@@ -1,6 +1,6 @@
 //var jsonData = '{"Meta":{"Tijd":1454517390,"TotaalBedrag":"374,00"},"Deelnemers":[{"naam":"Rianne Engels","toppen":"3","gehaaldetoppen":"0","bedrag":"0,00"},{"naam":"Hans Blaauwendraat","toppen":"0","gehaaldetoppen":"0","bedrag":"0,00"},{"naam":"Tim Sterel","toppen":"3","gehaaldetoppen":"0","bedrag":"374,00"},{"naam":"Aletta Boer","toppen":"0","gehaaldetoppen":"0","bedrag":"0,00"}]}';
 
-var BASE_URL = "http://fietsenvoor.nl/toppen/";
+var BASE_URL = "http://fietsenvoor.nl/toppen";
 var SECURITY_KEY = "SDFEdfs";
 var EDITION_ID = 5;
 
@@ -23,19 +23,19 @@ function onResume() {
 
 function loadScores() {
 
-	doJSONP('onDataLoaded', 'getScores?ts=1231');
+	doJSONP('onScoresLoaded', '');
 }
 
 function reloadScores() {
 
-	var iTimeStamp = 0;
+//	var iTimeStamp = 0;
+//
+//	if (localStorage.getItem("lastScoreUpdate") > 0) {
+//
+//		iTimeStamp = localStorage.getItem("lastScoreUpdate");
+//	}
 
-	if (localStorage.getItem("lastScoreUpdate") > 0) {
-
-		iTimeStamp = localStorage.getItem("lastScoreUpdate");
-	}
-
-	doJSONP('onScoresLoaded', 'getScores?ts=' + iTimeStamp);
+	doJSONP('onScoresLoaded', '');
 }
 
 function onScoresLoaded(jsonData) {
@@ -43,17 +43,14 @@ function onScoresLoaded(jsonData) {
 	//Oude interval clearen
 	clearInterval(newsInterval);
 
-	getScoreLijst(jsonData);
+	//getScoreLijst(jsonData);
 
 	//TimeStamp opslaan in de localstorage
-	localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
+	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
 
-	//alert(data.Meta);
+	alert(jsonData.Deelnemers);
 
-	/** RELOAD UIT **/
-	//setLoadScoresInterval();
-
-	//console.log("hallo");
+	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
 }
 
 function setLoadScoresInterval(ms) {
@@ -113,21 +110,49 @@ function setLoadNewsInterval(ms) {
 	newsInterval = setInterval(reloadNews, ms );
 }
 
+function loadHups() {
+
+	doJSONP('onHupsLoaded', '');
+}
+
+function submitHup() {
+
+	var sName = $('.hupFormWrapper #name').val();
+	var sMessage = $('.hupFormWrapper #hupMessage').val();
+
+	var sExtraGetString = 'sndr=' + sName + '&msg=' + sMessage;
+
+	doJSONP('onHupsLoaded', sExtraGetString);
+}
+
+function onHupsLoaded(jsonData) {
+
+	//Hupjes zijn geladen: Laten zien
+	$('.hupOverview').html(jsonData.Hups);
+}
+
+
 //Doe een JSONP-request
 function doJSONP(sCallBack, sExtraGetString) {
 
 	if (sExtraGetString.length > 5) {
 
-		//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
-		var url = BASE_URL + sExtraGetString + '&callback=' + sCallBack + '&ed=' + EDITION_ID;
+		sExtraGetString = '&' + sExtraGetString;
 
-		var head = document.head;
-		var script = document.createElement("script");
+	} else {
 
-		script.setAttribute("src", url);
-		head.appendChild(script);
-		head.removeChild(script);
+		sExtraGetString = '';
 	}
+
+	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
+	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
 }
 
 //Callback Function
@@ -207,6 +232,7 @@ $('body').click(function(e) {
         $(targetClass).slideUp();
     }
 });
+
 
 /********************************************************************************
  ******************************* RSS READER *************************************

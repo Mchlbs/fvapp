@@ -52,30 +52,30 @@
 
 		<!--<div id="chart"></div>-->
 		<div class="deelnemerOverzicht">
-			<div class="deelnemer infoBlock clear">
-				<div class="naam">Pietje Puk</div>
-				<div class="details">
-					<div class="detail doel">3</div>
-					<div class="detail gehaald">2</div>
-					<div class="detail bedrag">300</div>
-				</div>
-			</div>
-			<div class="deelnemer infoBlock clear">
-				<div class="naam">Mientje Puk</div>
-				<div class="details">
-					<div class="detail doel">3</div>
-					<div class="detail gehaald">8</div>
-					<div class="detail bedrag">0</div>
-				</div>
-			</div>
-			<div class="deelnemer infoBlock clear">
-				<div class="naam">Achmed Puk</div>
-				<div class="details">
-					<div class="detail doel">1</div>
-					<div class="detail gehaald">0</div>
-					<div class="detail bedrag">300</div>
-				</div>
-			</div>
+			<!--<div class="deelnemer infoBlock clear">-->
+				<!--<div class="naam">Pietje Puk</div>-->
+				<!--<div class="details">-->
+					<!--<div class="detail doel">3</div>-->
+					<!--<div class="detail gehaald">2</div>-->
+					<!--<div class="detail bedrag">300</div>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="deelnemer infoBlock clear">-->
+				<!--<div class="naam">Mientje Puk</div>-->
+				<!--<div class="details">-->
+					<!--<div class="detail doel">3</div>-->
+					<!--<div class="detail gehaald">8</div>-->
+					<!--<div class="detail bedrag">0</div>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="deelnemer infoBlock clear">-->
+				<!--<div class="naam">Achmed Puk</div>-->
+				<!--<div class="details">-->
+					<!--<div class="detail doel">1</div>-->
+					<!--<div class="detail gehaald">0</div>-->
+					<!--<div class="detail bedrag">300</div>-->
+				<!--</div>-->
+			<!--</div>-->
 		</div>
 
 	</div>
@@ -83,10 +83,10 @@
 	<div class="row screen" id="hup">
 		<h1 class="postTitle">Hupjes!</h1>
 		<div class="hupOverview">
-			<div class="hupItem infoBlock">
-				<div class="name">Pietje Puk</div>
-				<div class="content">Jeej doe super goed je best jonguh!</div>
-			</div>
+			<!--<div class="hupItem infoBlock">-->
+				<!--<div class="name">Pietje Puk</div>-->
+				<!--<div class="content">Jeej doe super goed je best jonguh!</div>-->
+			<!--</div>-->
 		</div>
 		<div class="sendHupWrapper">
 			<div class="sendHupTrigger toggleSlide" data-target="hupFormWrapper">
@@ -96,7 +96,7 @@
 				<form>
 					<input id="name" type="text" placeholder="Naam">
 					<textarea id="hupMessage" placeholder="Jouw aanmoediging..."></textarea>
-					<input type="submit">
+					<input type="submit" onclick="submitHup()">
 				</form>
 			</div>
 		</div>
@@ -127,8 +127,9 @@
 	$(document).ready(function ()
 	{
 
-		loadNews();
+		//loadNews();
 		loadScores();
+		loadHups();
 
 		//document.addEventListener("resume", onResume, false);
 		//document.addEventListener("pause", onPause, false);
