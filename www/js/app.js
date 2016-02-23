@@ -128,8 +128,8 @@ function loadHups() {
 	doJSONP('onHupsLoaded', '');
 }
 
-function submitHup() {
-
+function submitHup(e) {
+	e.preventDefault();
 	var sName = $('.hupFormWrapper #name').val();
 	var sMessage = $('.hupFormWrapper #hupMessage').val();
 
@@ -141,8 +141,14 @@ function submitHup() {
 function onHupsLoaded(jsonData) {
 
 	//Hupjes zijn geladen: Laten zien
-	$('.hupOverview').html(jsonData.Hups);
+	console.log(jsonData.Hups);
+
+	var hupOverview = $('.hupOverview');
+	$(hupOverview).html(jsonData.Hups);
+	$(hupOverview).find('.hupItem:first-child').fadeOut(0).fadeIn(1600);
+
 	setScreenWidth();
+	$('.hupFormWrapper').slideUp();
 }
 
 
@@ -221,6 +227,8 @@ $('body').click(function (e)
 
 $(document).ready(function(){
 	setScreenWidth();
+
+	$('.submitHup').on('click', submitHup);
 });
 
 $(window).resize(function(){
