@@ -63,6 +63,7 @@ p {
 }
 
 .mainContent {
+	position: relative;
 	overflow: hidden;
 	max-width: 100%;
 }
@@ -118,7 +119,8 @@ p {
 }
 
 .menu {
-	padding-bottom: 10px;
+	position: relative;
+	z-index: 100;
 	.menu-button {
 		position: relative;
 		float: left;
@@ -133,6 +135,7 @@ p {
 			filter: invert(1);
 			&:after {
 				position: absolute;
+				z-index: 100;
 				bottom: -8px;
 				left: 50%;
 				margin-left: -10px;
@@ -282,12 +285,8 @@ p {
 	display: none;
 	margin-top: 10px;
 	input, textarea {
-		border: none;
-		padding: 5px;
 		width: 100%;
-		&:focus {
-			outline: none;
-		}
+		border-color: @grey4;
 		&:not(:last-child) {
 			margin-bottom: 10px;
 		}
@@ -303,5 +302,22 @@ p {
 		background: @primaryColor url("../img/icons/send.png") no-repeat center center;
 		background-size: 30px;
 		.Rotate(-90deg);
+	}
+}
+
+input, textarea {
+	border:none;
+	border-bottom: 1px solid @grey4;
+	padding: 5px;
+	&:focus {
+		outline: none;
+	}
+}
+
+.filterInput{
+	margin-bottom: 20px;
+	input{
+		width:100%;
+		background: @grey5;
 	}
 }
