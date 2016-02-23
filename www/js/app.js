@@ -196,7 +196,7 @@ $(document).ready(function ()
 		slideToScreen(targetScreen);
 	});
 
-	$('.screen').swipe({
+	$('body').swipe({
 		swipeLeft: function (event, direction, distance, duration, fingerCount)
 		{
 			var currentScreenID = $('.screen.active').data("screenid");
@@ -268,9 +268,9 @@ function slideToScreen(id)
 		$(this).hide();
 	});
 
-	$('.screenWrapper').animate({"left": position}, function ()
+	$('.screenWrapper').stop().animate({"left": position}, function ()
 	{
-		if (id == 3)  $('.sendHupWrapper').show().animate({'margin-bottom': 0});
+		if (id == 3)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 	});
 
 	$('.screen').removeClass('active');
