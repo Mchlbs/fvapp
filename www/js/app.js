@@ -55,7 +55,7 @@ function onScoresLoaded(jsonData)
 
 //	alert(jsonData.Deelnemers);
 	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
-	setScreenWidth();
+	setScreenDimensions();
 }
 
 function setLoadScoresInterval(ms)
@@ -105,7 +105,7 @@ function onNewsLoaded(jsonData)
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 	//Nieuws laten zien
 	$('#nieuws').html(decoded);
-	setScreenWidth();
+	setScreenDimensions();
 
 	//TimeStamp opslaan in de localstorage
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
@@ -147,7 +147,7 @@ function onHupsLoaded(jsonData) {
 	$(hupOverview).html(jsonData.Hups);
 	$(hupOverview).find('.hupItem:first-child').fadeOut(0).fadeIn(1600);
 
-	setScreenWidth();
+	setScreenDimensions();
 	$('.hupFormWrapper').slideUp();
 }
 
@@ -208,6 +208,9 @@ function toggle(someID)
 	{
 		if(someID ==  'hup')	$('.sendHupWrapper').show().animate({'margin-bottom': 0});
 	});
+	$('.screen').removeClass('active');
+	$('.screen#' + someID).addClass('active');
+	setScreenDimensions();
 }
 
 $('.toggleSlide').on('click', function ()
@@ -226,17 +229,18 @@ $('body').click(function (e)
 });
 
 $(document).ready(function(){
-	setScreenWidth();
+	setScreenDimensions();
 
 	$('.submitHup').on('click', submitHup);
 });
 
 $(window).resize(function(){
-	setScreenWidth();
+	setScreenDimensions();
 });
 
-function setScreenWidth(){
-	$('.screen').css({"width": $(window).width()});
+function setScreenDimensions(){
+	$('.screen').css({"width": $(window).width(), "height": "auto","max-height": $(window).height() -130});
+	$('.screen:not(.active)').css({"height": $(window).height() -120});
 }
 
 /********************************************************************************

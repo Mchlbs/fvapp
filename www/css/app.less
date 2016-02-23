@@ -15,7 +15,6 @@ body {
 	font-size: @fontSize;
 	color: @fontColor;
 	margin: 0;
-	padding-bottom: 25px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -69,18 +68,22 @@ p {
 }
 
 //Screens
-.screenWrapper{
+.screenWrapper {
 	position: relative;
 	width: 9999px;
 }
 
-.screen{
+.screen {
 	float: left;
 	padding: 0 15px;
 	width: 320px;
+	padding-bottom: 30px;
+	&.active {
+		overflow-y: auto;
+	}
 }
 
-.container{
+.container {
 	max-width: 600px;
 	margin: 0 auto;
 }
@@ -94,22 +97,22 @@ p {
 }
 
 #button-nieuws {
-		background: url("../img/icons/megaphone-outline.png") no-repeat center center;
-	&.active{
+	background: url("../img/icons/megaphone-outline.png") no-repeat center center;
+	&.active {
 		background: url("../img/icons/megaphone-filled.png") no-repeat center center;
 	}
 }
 
 #button-scores {
 	background: url("../img/icons/bike-outline.png") no-repeat center center;
-	&.active{
+	&.active {
 		background: url("../img/icons/bike-filled.png") no-repeat center center;
 	}
 }
 
 #button-hup {
 	background: url("../img/icons/cheer-outline.png") no-repeat center center;
-	&.active{
+	&.active {
 		background: url("../img/icons/cheer-filled.png") no-repeat center center;
 	}
 }
@@ -190,14 +193,14 @@ p {
 	&:not(:last-child) {
 		margin-bottom: 15px;
 	}
-	.content{
+	.content {
 		padding: 5px 15px;
 	}
-	.header{
+	.header {
 		font-size: 1.1em;
 		background: @secondaryColor;
 		color: #fff;
-		padding:2px 15px;
+		padding: 2px 15px;
 	}
 }
 
@@ -255,8 +258,8 @@ p {
 	}
 }
 
-.hupOverview{
-	margin-top:20px;
+.hupOverview {
+	margin-top: 20px;
 }
 
 .sendHupWrapper {
