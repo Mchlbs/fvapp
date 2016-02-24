@@ -18,14 +18,16 @@
 </head>
 <body>
 <!-- MENUKNOPPEN -->
-<div class="row header">
-	<div id="moneycount">&euro; 3.000</div>
-</div>
+<div class="appHeader">
+	<div class="row">
+		<div id="moneycount">&euro; 3.000</div>
+	</div>
 
-<div class="row menu clear">
-	<div class="menu-button active" id="button-nieuws" data-screenid="1"></div>
-	<div class="menu-button" id="button-scores" data-screenid="2"></div>
-	<div class="menu-button" id="button-hup" data-screenid="3"></div>
+	<div class="row menu clear">
+		<div class="menu-button active" id="button-nieuws" data-screenid="1"></div>
+		<div class="menu-button" id="button-scores" data-screenid="2"></div>
+		<div class="menu-button" id="button-hup" data-screenid="3"></div>
+	</div>
 </div>
 
 <div class="mainContent clear">
@@ -53,11 +55,16 @@
 					</div>
 				</div>
 
-				<div class="filterInput">
-					<input id="filterDeelnemers" data-target=".deelnemerOverzicht .naam" placeholder="Zoeken" />
+				<div class="deelnemerOverzichtWrapper">
+					<div class="filterInput">
+						<input id="filterDeelnemers" data-target=".deelnemerOverzicht .naam" placeholder="Zoek een deelnemer"/>
+						<div class="exitFilterModus icon iconClose hidden"></div>
+					</div>
+					<div class="container">
+						<div class="noItemsFound">Geen deelnemers gevonden</div>
+						<div class="deelnemerOverzicht"></div>
+					</div>
 				</div>
-
-				<div class="deelnemerOverzicht"></div>
 			</div>
 		</div>
 
@@ -66,7 +73,7 @@
 				<h1 class="postTitle">Hupjes!</h1>
 				<div class="hupOverview"></div>
 				<div class="sendHupWrapper">
-					<div class="sendHupTrigger toggleSlide swipeVertical" data-target="hupFormWrapper">
+					<div class="sendHupTrigger">
 						Hup!
 					</div>
 					<div class="container">
