@@ -105,7 +105,7 @@ function onNewsLoaded(jsonData)
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 	//Nieuws laten zien
-	$('#nieuws').html(decoded);
+	$('#nieuws .content').html(decoded);
 	setScreenDimensions();
 
 	//TimeStamp opslaan in de localstorage
@@ -256,13 +256,13 @@ $(document).ready(function ()
 	$('body').swipe({
 		swipeLeft: function (event, direction, distance, duration, fingerCount)
 		{
-			if($(this).hasClass('navSwipeBlocked')) return;
+			if ($(this).hasClass('navSwipeBlocked')) return;
 			var currentScreenID = $('.screen.active').data("screenid");
 			slideToNextScreen(currentScreenID);
 		},
 		swipeRight: function ()
 		{
-			if($(this).hasClass('navSwipeBlocked')) return;
+			if ($(this).hasClass('navSwipeBlocked')) return;
 			var currentScreenID = $('.screen.active').data("screenid");
 			slideToPrevScreen(currentScreenID);
 		},
@@ -408,6 +408,11 @@ function openHupForm()
 	$(sendHupWrapper).addClass('active');
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
 	$(sendHupTrigger).text('Sluiten');
+	$(sendHupWrapper).height($(window).height());
+	setTimeout(function(){
+	$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
+	},200);
+
 	blockNavSwipe();
 }
 
@@ -419,8 +424,19 @@ function closeHupForm()
 	$(sendHupWrapper).removeClass('active');
 	$(hupFormWrapper).hide();
 	$(sendHupTrigger).text('Hup!');
+	$(sendHupWrapper).height('50px');
 	unBlockNavSwipe();
 }
+
+var virtualKeyboardHeight = function ()
+{
+	var sx = document.body.scrollLeft, sy = document.body.scrollTop;
+	var naturalHeight = window.innerHeight;
+	window.scrollTo(sx, document.body.scrollHeight);
+	var keyboardHeight = naturalHeight - window.innerHeight;
+	window.scrollTo(sx, sy);
+	return keyboardHeight;
+};
 
 function filter(criteria, target)
 {
@@ -449,6 +465,7 @@ function filter(criteria, target)
 	}
 
 }
+
 
 /********************************************************************************
  ******************************* RSS READER *************************************
