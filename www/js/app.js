@@ -48,7 +48,7 @@ function onScoresLoaded(jsonData) {
 	//TimeStamp opslaan in de localstorage
 	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
 
-	alert(jsonData.Deelnemers);
+	//alert(jsonData.Deelnemers);
 
 	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
 }
@@ -70,7 +70,7 @@ function loadNews() {
 	//Nieuwe interval starten
 	//setLoadNewsInterval();
 
-	doJSONP('onNewsLoaded', 'getNews?ts=0');
+	doJSONP('onNewsLoaded', '');
 }
 
 function reloadNews() {
@@ -82,7 +82,7 @@ function reloadNews() {
 		iTimeStamp = localStorage.getItem("lastNewsUpdate");
 	}
 
-	doJSONP('onNewsLoaded', 'getNews?ts=' + iTimeStamp);
+	doJSONP('onNewsLoaded', '');
 }
 
 function onNewsLoaded(jsonData) {
@@ -155,58 +155,58 @@ function doJSONP(sCallBack, sExtraGetString) {
 	head.removeChild(script);
 }
 
-//Callback Function
-function getScoreLijst(json)
-{
-	if(json !== undefined ) {
-
-		$('#chart').html("").json2html(json, transforms.scorelijst);
-	}
-}
-
-var transforms = {
-
-	'scorelijst': [
-		{ "tag" : "table",
-			"data-role" : "table",
-			"class" : "scoreList CSSTableGenerator ui-responsive",
-			"children" : [
-				{ "tag" : "thead",
-					"children" : [
-						{ "tag" : "tr",
-							"children" : [
-								{ "tag" : "th",
-									"html" : "Naam"
-								},
-								{ "tag" : "th",
-									"html" : "Doel"
-								},
-								{ "tag" : "th",
-									"html" : "Gehaald"
-								},
-								{ "tag" : "th",
-									"html" : "Bedrag"
-								}
-							]
-						}
-					]
-				},
-				{ "tag" : "tbody",
-					"children" : function() { return(json2html.transform(this.Deelnemers,transforms.deelnemers)); }
-				}
-			]
-		}
-	],
-
-	'deelnemers' : [
-		{ "tag":"tr","class":"deelnemer","children":[
-			{"tag":"td","class":"naam","html":"${naam}"},
-			{"tag":"td","class":"toppen","html":"${toppen}"},
-			{"tag":"td","class":"gehaaldetoppen","html":"${gehaaldetoppen}"},
-			{"tag":"td","class":"bedrag","html":"${bedrag}"}
-		]}
-	]
-};
+////Callback Function
+//function getScoreLijst(json)
+//{
+//	if(json !== undefined ) {
+//
+//		$('#chart').html("").json2html(json, transforms.scorelijst);
+//	}
+//}
+//
+//var transforms = {
+//
+//	'scorelijst': [
+//		{ "tag" : "table",
+//			"data-role" : "table",
+//			"class" : "scoreList CSSTableGenerator ui-responsive",
+//			"children" : [
+//				{ "tag" : "thead",
+//					"children" : [
+//						{ "tag" : "tr",
+//							"children" : [
+//								{ "tag" : "th",
+//									"html" : "Naam"
+//								},
+//								{ "tag" : "th",
+//									"html" : "Doel"
+//								},
+//								{ "tag" : "th",
+//									"html" : "Gehaald"
+//								},
+//								{ "tag" : "th",
+//									"html" : "Bedrag"
+//								}
+//							]
+//						}
+//					]
+//				},
+//				{ "tag" : "tbody",
+//					"children" : function() { return(json2html.transform(this.Deelnemers,transforms.deelnemers)); }
+//				}
+//			]
+//		}
+//	],
+//
+//	'deelnemers' : [
+//		{ "tag":"tr","class":"deelnemer","children":[
+//			{"tag":"td","class":"naam","html":"${naam}"},
+//			{"tag":"td","class":"toppen","html":"${toppen}"},
+//			{"tag":"td","class":"gehaaldetoppen","html":"${gehaaldetoppen}"},
+//			{"tag":"td","class":"bedrag","html":"${bedrag}"}
+//		]}
+//	]
+//};
 
 /********************************************************************************
 ******************************* LAYOUT / UI *************************************
