@@ -7,13 +7,15 @@ var EDITION_ID = 5;
 var newsInterval;
 var scoreInterval;
 
-function onPause() {
+function onPause()
+{
 
 	clearInterval(newsInterval);
 	clearInterval(scoreInterval);
 }
 
-function onResume() {
+function onResume()
+{
 
 	setLoadNewsInterval();
 	setLoadScoresInterval();
@@ -21,12 +23,14 @@ function onResume() {
 
 //getScores?ts=1231&ed=5
 
-function loadScores() {
+function loadScores()
+{
 
 	doJSONP('onScoresLoaded', '');
 }
 
-function reloadScores() {
+function reloadScores()
+{
 
 //	var iTimeStamp = 0;
 //
@@ -38,7 +42,8 @@ function reloadScores() {
 	doJSONP('onScoresLoaded', '');
 }
 
-function onScoresLoaded(jsonData) {
+function onScoresLoaded(jsonData)
+{
 
 	//Oude interval clearen
 	clearInterval(newsInterval);
@@ -51,33 +56,39 @@ function onScoresLoaded(jsonData) {
 	//alert(jsonData.Deelnemers);
 
 	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
+	setScreenDimensions();
 }
 
-function setLoadScoresInterval(ms) {
+function setLoadScoresInterval(ms)
+{
 
-	if (ms === undefined) {
+	if (ms === undefined)
+	{
 
 		ms = 3000;
 	}
 
-	newsInterval = setInterval(reloadScores, ms );
+	newsInterval = setInterval(reloadScores, ms);
 }
 
 
-function loadNews() {
+function loadNews()
+{
 
 	/** RELOAD UIT **/
-	//Nieuwe interval starten
-	//setLoadNewsInterval();
+		//Nieuwe interval starten
+		//setLoadNewsInterval();
 
 	doJSONP('onNewsLoaded', '');
 }
 
-function reloadNews() {
+function reloadNews()
+{
 
 	var iTimeStamp = 0;
 
-	if (localStorage.getItem("lastNewsUpdate") > 0) {
+	if (localStorage.getItem("lastNewsUpdate") > 0)
+	{
 
 		iTimeStamp = localStorage.getItem("lastNewsUpdate");
 	}
@@ -85,38 +96,43 @@ function reloadNews() {
 	doJSONP('onNewsLoaded', '');
 }
 
-function onNewsLoaded(jsonData) {
+function onNewsLoaded(jsonData)
+{
 
 	//Oude interval clearen
 	clearInterval(newsInterval);
 
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
-
 	//Nieuws laten zien
 	$('#nieuws').html(decoded);
+	setScreenDimensions();
 
 	//TimeStamp opslaan in de localstorage
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
 }
 
-function setLoadNewsInterval(ms) {
+function setLoadNewsInterval(ms)
+{
 
-	if (ms === undefined) {
+	if (ms === undefined)
+	{
 
 		ms = 10000;
 	}
 
-	newsInterval = setInterval(reloadNews, ms );
+	newsInterval = setInterval(reloadNews, ms);
 }
 
-function loadHups() {
+function loadHups()
+{
 
 	doJSONP('onHupsLoaded', '');
 }
 
-function submitHup() {
-
+function submitHup(e)
+{
+	e.preventDefault();
 	var sName = $('.hupFormWrapper #name').val();
 	var sMessage = $('.hupFormWrapper #hupMessage').val();
 
@@ -125,21 +141,31 @@ function submitHup() {
 	doJSONP('onHupsLoaded', sExtraGetString);
 }
 
-function onHupsLoaded(jsonData) {
+function onHupsLoaded(jsonData)
+{
 
 	//Hupjes zijn geladen: Laten zien
-	$('.hupOverview').html(jsonData.Hups);
+	var hupOverview = $('.hupOverview');
+	$(hupOverview).html(jsonData.Hups);
+	$(hupOverview).find('.hupItem:first-child').fadeOut(0).fadeIn(1600);
+
+	setScreenDimensions();
+	$('.hupFormWrapper').slideUp();
 }
 
 
 //Doe een JSONP-request
-function doJSONP(sCallBack, sExtraGetString) {
+function doJSONP(sCallBack, sExtraGetString)
+{
 
-	if (sExtraGetString.length > 5) {
+	if (sExtraGetString.length > 5)
+	{
 
 		sExtraGetString = '&' + sExtraGetString;
 
-	} else {
+	}
+	else
+	{
 
 		sExtraGetString = '';
 	}
@@ -154,6 +180,7 @@ function doJSONP(sCallBack, sExtraGetString) {
 	head.appendChild(script);
 	head.removeChild(script);
 }
+
 
 ////Callback Function
 //function getScoreLijst(json)
@@ -209,30 +236,154 @@ function doJSONP(sCallBack, sExtraGetString) {
 //};
 
 /********************************************************************************
-******************************* LAYOUT / UI *************************************
-********************************************************************************/
+ ******************************* LAYOUT / UI *************************************
+ ********************************************************************************/
 
-function toggle(someID) {
+$(document).ready(function ()
+{
+	setScreenDimensions();
 
-	$(".screen").hide();
-	$(".menu-button").removeClass('active');
+	$('.menu-button').on('click', function ()
+	{
+		var targetScreen = $(this).data("screenid");
+		$(".menu-button").removeClass('active');
+		$(this).addClass('active');
+		slideToScreen(targetScreen);
+	});
 
-	$("#" + someID).show();
-	$("#button-" + someID).addClass('active');
+	$('body').swipe({
+		swipeLeft: function (event, direction, distance, duration, fingerCount)
+		{
+			var currentScreenID = $('.screen.active').data("screenid");
+			slideToNextScreen(currentScreenID);
+		},
+		swipeRight: function ()
+		{
+			var currentScreenID = $('.screen.active').data("screenid");
+			slideToPrevScreen(currentScreenID);
+		},
+		threshold: 75
+	});
+
+	$('.submitHup').on('click', submitHup);
+
+	$('#filterDeelnemers').on('keyup', function(){
+		var target = $(this).data("target");
+		var criteria = $(this).val();
+		filter(criteria, target);
+	});
+
+});
+
+$(window).resize(function ()
+{
+	setScreenDimensions();
+});
+
+
+function setScreenDimensions()
+{
+	$('.screen').css({"width": $(window).width(), "height": "auto", "max-height": $(window).height() - 109});
+	$('.screen:not(.active)').css({"height": $(window).height() - 109});
 }
 
-$('.toggleSlide').on('click', function(){
+function slideToNextScreen(id)
+{
+	if (id <= 2)
+	{
+		slideToScreen(id + 1);
+	}
+}
+function slideToPrevScreen(id)
+{
+	if (id >= 2)
+	{
+		slideToScreen(id - 1);
+	}
+}
+
+function slideToScreen(id)
+{
+	var position;
+	switch (id)
+	{
+		case 1:
+			position = 0;
+			break;
+		case 2:
+			position = '-100%';
+			break;
+		case 3:
+			position = '-200%';
+			break;
+	}
+
+	$('.sendHupWrapper').stop().animate({'margin-bottom': '-50px'}, function ()
+	{
+		$(this).hide();
+	});
+
+	$('.screenWrapper').stop().animate({"left": position}, function ()
+	{
+		if (id == 3)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
+	});
+
+	$('.screen').removeClass('active');
+	$('.menu-button').removeClass('active');
+	$('.screen[data-screenid="' + id + '"]').addClass('active');
+	$('.menu-button[data-screenid="' + id + '"]').addClass('active');
+	setScreenDimensions();
+}
+
+
+$('.toggleSlide').on('click', function ()
+{
 	var targetClass = "." + $(this).data('target');
 	$(targetClass).slideToggle(200);
+	$(targetClass).find("input:first-child").focus();
 });
 
-$('body').click(function(e) {
-		var targetClass = "." + $('.toggleSlide').data('target');
-    if (!$(e.target).closest(targetClass).length && !$(e.target).hasClass('toggleSlide')){
-        $(targetClass).slideUp();
-    }
+$('.toggleSlide.swipeVertical').swipe({
+	swipeUp: function (event, direction, distance, duration, fingerCount)
+	{
+		var targetClass = "." + $(this).data('target');
+		$(targetClass).slideDown(200);
+		$(targetClass).find("input:first-child").focus();
+	},
+	swipeDown: function ()
+	{
+		var targetClass = "." + $(this).data('target');
+		$(targetClass).slideUp(200);
+	},
+	threshold: 75
 });
 
+$('body').click(function (e)
+{
+	var targetClass = "." + $('.toggleSlide').data('target');
+	if (!$(e.target).closest(targetClass).length && !$(e.target).hasClass('toggleSlide'))
+	{
+		$(targetClass).slideUp();
+	}
+});
+
+
+function filter(criteria, target){
+
+	if(criteria !== '')
+	{
+		$(target).each(function(){
+			if($(this).text().toUpperCase().indexOf(criteria.toUpperCase()) == -1){
+				$(this).parent().hide();
+			}
+		});
+	}
+	else {
+		$(target).parent().show();
+	}
+
+
+}
 
 /********************************************************************************
  ******************************* RSS READER *************************************
