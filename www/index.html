@@ -25,16 +25,39 @@
 	</div>
 
 	<div class="row menu clear">
-		<div class="menu-button active" id="button-nieuws" data-screenid="1"></div>
+		<div class="menu-button active" id="button-hup" data-screenid="1"></div>
 		<div class="menu-button" id="button-scores" data-screenid="2"></div>
-		<div class="menu-button" id="button-hup" data-screenid="3"></div>
+		<div class="menu-button" id="button-nieuws" data-screenid="3"></div>
 	</div>
 </div>
 
 <div class="mainContent clear">
 	<div class="screenWrapper">
-		<div class="row screen active" id="nieuws" data-screenid="1">
-			<div class="container content">Nieuws laden...</div>
+		<div class="row screen" id="hup" data-screenid="1">
+			<div class="container">
+				<h1 class="postTitle">Hupjes!</h1>
+				<div class="hupOverview"></div>
+				<div class="sendHupWrapper">
+					<div class="test">
+						<div class="inner">
+							<div class="sendHupTrigger">
+								Hup!
+							</div>
+							<div class="container">
+								<div class="hupFormWrapper">
+									<form>
+										<input id="name" type="text" placeholder="Naam">
+										<div class="textareaHolder">
+											<textarea id="hupMessage" placeholder="Jouw aanmoediging..."></textarea>
+										</div>
+										<input type="submit" class="submitHup">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="row screen" id="scores" data-screenid="2">
@@ -69,32 +92,11 @@
 			</div>
 		</div>
 
-		<div class="row screen" id="hup" data-screenid="3">
-			<div class="container">
-				<h1 class="postTitle">Hupjes!</h1>
-				<div class="hupOverview"></div>
-				<div class="sendHupWrapper">
-					<div class="test">
-						<div class="inner">
-							<div class="sendHupTrigger">
-								Hup!
-							</div>
-							<div class="container">
-								<div class="hupFormWrapper">
-									<form>
-										<input id="name" type="text" placeholder="Naam">
-										<div class="textareaHolder">
-											<textarea id="hupMessage" placeholder="Jouw aanmoediging..."></textarea>
-										</div>
-										<input type="submit" class="submitHup">
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="row screen active" id="nieuws" data-screenid="3">
+			<div class="container content">Nieuws laden...</div>
 		</div>
+
+
 	</div>
 	<!-- Cordova --->
 	<script type="text/javascript" src="cordova.js"></script>

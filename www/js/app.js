@@ -141,6 +141,7 @@ function submitHup(e)
 	doJSONP('onHupsLoaded', sExtraGetString);
 	closeHupForm();
 	$('.screen.active').scrollTop(0);
+	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
 
 function onHupsLoaded(jsonData)
@@ -149,7 +150,6 @@ function onHupsLoaded(jsonData)
 	//Hupjes zijn geladen: Laten zien
 	var hupOverview = $('.hupOverview');
 	$(hupOverview).html(jsonData.Hups);
-	$(hupOverview).find('.hupItem:first-child').fadeOut(0).fadeIn(1600);
 
 	setScreenDimensions();
 }
@@ -244,6 +244,7 @@ $(document).ready(function ()
 {
 	setScreenDimensions();
 	$('.screen').fadeIn();
+	$('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 
 	$('.menu-button').on('click', function ()
 	{
@@ -379,7 +380,7 @@ function slideToScreen(id)
 
 	$('.screenWrapper').stop().animate({"left": position}, function ()
 	{
-		if (id == 3)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
+		if (id == 1)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 	});
 
 	$('.screen').removeClass('active');
@@ -398,7 +399,6 @@ function unBlockNavSwipe()
 {
 	$('body').removeClass('navSwipeBlocked');
 }
-
 
 function openHupForm()
 {
