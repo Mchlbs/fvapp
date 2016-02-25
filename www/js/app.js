@@ -105,7 +105,7 @@ function onNewsLoaded(jsonData)
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 	//Nieuws laten zien
-	$('#nieuws').html(decoded);
+	$('#nieuws .content').html(decoded);
 	setScreenDimensions();
 
 	//TimeStamp opslaan in de localstorage
@@ -141,6 +141,7 @@ function submitHup(e)
 	doJSONP('onHupsLoaded', sExtraGetString);
 	closeHupForm();
 	$('.screen.active').scrollTop(0);
+	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
 
 function onHupsLoaded(jsonData)
@@ -149,7 +150,6 @@ function onHupsLoaded(jsonData)
 	//Hupjes zijn geladen: Laten zien
 	var hupOverview = $('.hupOverview');
 	$(hupOverview).html(jsonData.Hups);
-	$(hupOverview).find('.hupItem:first-child').fadeOut(0).fadeIn(1600);
 
 	setScreenDimensions();
 }
@@ -244,6 +244,7 @@ $(document).ready(function ()
 {
 	setScreenDimensions();
 	$('.screen').fadeIn();
+	$('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 
 	$('.menu-button').on('click', function ()
 	{
@@ -256,13 +257,13 @@ $(document).ready(function ()
 	$('body').swipe({
 		swipeLeft: function (event, direction, distance, duration, fingerCount)
 		{
-			if($(this).hasClass('navSwipeBlocked')) return;
+			if ($(this).hasClass('navSwipeBlocked')) return;
 			var currentScreenID = $('.screen.active').data("screenid");
 			slideToNextScreen(currentScreenID);
 		},
 		swipeRight: function ()
 		{
-			if($(this).hasClass('navSwipeBlocked')) return;
+			if ($(this).hasClass('navSwipeBlocked')) return;
 			var currentScreenID = $('.screen.active').data("screenid");
 			slideToPrevScreen(currentScreenID);
 		},
@@ -379,7 +380,7 @@ function slideToScreen(id)
 
 	$('.screenWrapper').stop().animate({"left": position}, function ()
 	{
-		if (id == 3)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
+		if (id == 1)  $('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 	});
 
 	$('.screen').removeClass('active');
@@ -399,7 +400,6 @@ function unBlockNavSwipe()
 	$('body').removeClass('navSwipeBlocked');
 }
 
-
 function openHupForm()
 {
 	var sendHupWrapper = $('.sendHupWrapper');
@@ -408,6 +408,11 @@ function openHupForm()
 	$(sendHupWrapper).addClass('active');
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
 	$(sendHupTrigger).text('Sluiten');
+	$(sendHupWrapper).height($(window).height());
+	setTimeout(function(){
+	$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
+	},200);
+
 	blockNavSwipe();
 }
 
@@ -419,8 +424,19 @@ function closeHupForm()
 	$(sendHupWrapper).removeClass('active');
 	$(hupFormWrapper).hide();
 	$(sendHupTrigger).text('Hup!');
+	$(sendHupWrapper).height('50px');
 	unBlockNavSwipe();
 }
+
+var virtualKeyboardHeight = function ()
+{
+	var sx = document.body.scrollLeft, sy = document.body.scrollTop;
+	var naturalHeight = window.innerHeight;
+	window.scrollTo(sx, document.body.scrollHeight);
+	var keyboardHeight = naturalHeight - window.innerHeight;
+	window.scrollTo(sx, sy);
+	return keyboardHeight;
+};
 
 function filter(criteria, target)
 {
@@ -449,6 +465,7 @@ function filter(criteria, target)
 	}
 
 }
+
 
 /********************************************************************************
  ******************************* RSS READER *************************************
