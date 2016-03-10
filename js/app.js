@@ -9,62 +9,62 @@ var scoreInterval;
 
 function onPause() {
 
-	clearInterval(newsInterval);
-	clearInterval(scoreInterval);
+//	clearInterval(newsInterval);
+//	clearInterval(scoreInterval);
 }
 
 function onResume() {
 
-	setLoadNewsInterval();
-	setLoadScoresInterval();
+//	setLoadNewsInterval();
+//	setLoadScoresInterval();
 }
 
 //getScores?ts=1231&ed=5
 
-function loadScores() {
+//function loadScores() {
+//
+//	doJSONP('onDataLoaded', 'getScores?ts=1231');
+//}
 
-	doJSONP('onDataLoaded', 'getScores?ts=1231');
-}
+//function reloadScores() {
+//
+//	var iTimeStamp = 0;
+//
+//	if (localStorage.getItem("lastScoreUpdate") > 0) {
+//
+//		iTimeStamp = localStorage.getItem("lastScoreUpdate");
+//	}
+//
+//	doJSONP('onScoresLoaded', 'getScores?ts=' + iTimeStamp);
+//}
 
-function reloadScores() {
+//function onScoresLoaded(jsonData) {
+//
+//	//Oude interval clearen
+//	clearInterval(newsInterval);
+//
+//	getScoreLijst(jsonData);
+//
+//	//TimeStamp opslaan in de localstorage
+//	localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
+//
+//	//alert(data.Meta);
+//
+//	/** RELOAD UIT **/
+//	//setLoadScoresInterval();
+//
+//	//console.log("hallo");
+//}
 
-	var iTimeStamp = 0;
-
-	if (localStorage.getItem("lastScoreUpdate") > 0) {
-
-		iTimeStamp = localStorage.getItem("lastScoreUpdate");
-	}
-
-	doJSONP('onScoresLoaded', 'getScores?ts=' + iTimeStamp);
-}
-
-function onScoresLoaded(jsonData) {
-
-	//Oude interval clearen
-	clearInterval(newsInterval);
-
-	getScoreLijst(jsonData);
-
-	//TimeStamp opslaan in de localstorage
-	localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
-
-	//alert(data.Meta);
-
-	/** RELOAD UIT **/
-	//setLoadScoresInterval();
-
-	//console.log("hallo");
-}
-
-function setLoadScoresInterval(ms) {
-
-	if (ms === undefined) {
-
-		ms = 3000;
-	}
-
-	newsInterval = setInterval(reloadScores, ms );
-}
+//function setLoadScoresInterval(ms) {
+//
+//	if (ms === undefined) {
+//
+//		ms = 3000;
+//	}
+//
+//	newsInterval = setInterval(reloadScores, ms );
+//}
 
 
 function loadNews() {

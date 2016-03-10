@@ -9,16 +9,65 @@ var scoreInterval;
 
 function onPause()
 {
-
-	clearInterval(newsInterval);
-	clearInterval(scoreInterval);
 }
 
 function onResume()
 {
+}
 
-	setLoadNewsInterval();
-	setLoadScoresInterval();
+//function pokeServer() {
+//
+//	alert("Michiel");
+//
+//	var sExtraGetString = "";
+//
+//	sExtraGetString += 'tsn=0';
+//	//sExtraGetString += 'tsn='  + getTimeStamp('News');
+//	sExtraGetString += '&tss=' + getTimeStamp('Scores');
+//	sExtraGetString += '&tsh=' + getTimeStamp('Hups');
+//
+//	doJSONP('poke', sExtraGetString);
+//}
+
+////Return van het poken van de Server
+//function poke(data) {
+//
+//	var jsonNews = data.News;
+//
+//	alert("Mciheil");
+//
+//	if (jsonNews) { processNews(jsonNews) }
+//}
+
+function getTimeStamp(sDataStream) {
+
+	var sName = sDataStream + 'TimeStamp';
+
+	var iTimeStamp = localStorage.getItem(sName);
+
+	if (!isNumeric(iTimeStamp)) {
+
+		iTimeStamp = 0;
+	}
+
+	return iTimeStamp;
+}
+
+function setTimeStamp(sDataStream, iTimeStamp) {
+
+	var sName = sDataStream + 'TimeStamp';
+
+	if (!isNumeric(iTimeStamp)) {
+
+		iTimeStamp = 0;
+	}
+
+	localStorage.setItem(sName, iTimeStamp);
+}
+
+function isNumeric(val) {
+
+	return Number(parseFloat(val))== val;
 }
 
 //getScores?ts=1231&ed=5
@@ -71,6 +120,107 @@ function setLoadScoresInterval(ms)
 	newsInterval = setInterval(reloadScores, ms);
 }
 
+function processNews(jsonNews) {
+
+	//setTimeStamp( 'News' , jsonNews.TimeStamp);
+
+	console.log(jsonNews.Messages);
+
+	var storedMessages = localStorage.getItem('News');
+
+	//alert(storedMessages.Messages);
+
+	if (storedMessages) {
+
+		$.each(jsonNews.Messages,function(i, item) {
+
+			var ID = item.ID;
+
+			var index = storedMessages.length + 1;
+
+			$.each(storedMessages,function(j, curr_item) {
+
+				if (curr_item.ID == ID) {
+
+					delete storedMessages[j];
+
+					index = j;
+				}
+			});
+
+			storedMessages[index] = item;
+		});
+
+		localStorage.setItem('News', jsonNews.Messages);
+		//localStorage.setItem('News', storedMessages);
+
+	} else {
+
+		localStorage.setItem('News', jsonNews.Messages);
+	}
+
+	showNews();
+}
+
+function showNews() {
+
+	var storedMessages = localStorage.getItem('News');
+
+	var sNewsItems = "";
+
+	if (storedMessages) {
+
+		$.each(storedMessages,function(i, item) {
+
+			var sTitle = item.Title;
+
+			sNewsItems += `<div class="row top">
+				<section id="content">
+					<article id="content_wrapper" class="blogEntry clearfix">
+						<h1 class="postTitle">${sTitle}</h1>'
+
+					${item.Message}
+
+						<span class="post-metadata">Geplaatst op ${item.Date}</span>
+
+					</article>
+				</section>
+			</div>`;
+		});
+	}
+
+	//alert(sNewsItems);
+
+
+
+
+//	//HTML decoderen
+//	var decoded = $("<div/>").html(sNewsItems).text();
+//	//Nieuws laten zien
+//	$('#nieuws .content').html(decoded);
+//	setScreenDimensions();
+}
+
+//function makeSureThisIsAnArray(somevalue) {
+//
+//	if (!$.isArray(somevalue)) {
+//
+//		somevalue = [];
+//	}
+//
+//	return somevalue;
+//}
+
+function pokeScores()
+{
+	doJSONP('onScoresLoaded', '');
+}
+
+function processScores(data) {
+
+	$('.deelnemerOverzicht').html(data.Deelnemers);
+	setScreenDimensions();
+}
 
 function loadNews()
 {
@@ -82,19 +232,19 @@ function loadNews()
 	doJSONP('onNewsLoaded', '');
 }
 
-function reloadNews()
-{
-
-	var iTimeStamp = 0;
-
-	if (localStorage.getItem("lastNewsUpdate") > 0)
-	{
-
-		iTimeStamp = localStorage.getItem("lastNewsUpdate");
-	}
-
-	doJSONP('onNewsLoaded', '');
-}
+//function reloadNews()
+//{
+//
+//	var iTimeStamp = 0;
+//
+//	if (localStorage.getItem("lastNewsUpdate") > 0)
+//	{
+//
+//		iTimeStamp = localStorage.getItem("lastNewsUpdate");
+//	}
+//
+//	doJSONP('onNewsLoaded', '');
+//}
 
 function onNewsLoaded(jsonData)
 {
@@ -104,6 +254,7 @@ function onNewsLoaded(jsonData)
 
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
+
 	//Nieuws laten zien
 	$('#nieuws .content').html(decoded);
 	setScreenDimensions();
@@ -112,17 +263,17 @@ function onNewsLoaded(jsonData)
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
 }
 
-function setLoadNewsInterval(ms)
-{
-
-	if (ms === undefined)
-	{
-
-		ms = 10000;
-	}
-
-	newsInterval = setInterval(reloadNews, ms);
-}
+//function setLoadNewsInterval(ms)
+//{
+//
+//	if (ms === undefined)
+//	{
+//
+//		ms = 10000;
+//	}
+//
+//	newsInterval = setInterval(reloadNews, ms);
+//}
 
 function loadHups()
 {
@@ -171,8 +322,17 @@ function doJSONP(sCallBack, sExtraGetString)
 		sExtraGetString = '';
 	}
 
+	var SessionID = localStorage.getItem('SocketID');
+
+	if (SessionID.length > 3) {
+
+		sExtraGetString += '&sid=' + SessionID;
+	}
+
 	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
 	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
+
+	console.log(url);
 
 	var head = document.head;
 	var script = document.createElement("script");
@@ -181,7 +341,6 @@ function doJSONP(sCallBack, sExtraGetString)
 	head.appendChild(script);
 	head.removeChild(script);
 }
-
 
 ////Callback Function
 //function getScoreLijst(json)
