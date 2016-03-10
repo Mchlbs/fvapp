@@ -314,14 +314,15 @@ $(document).ready(function ()
 	$('.sendHupTrigger').on('click', function ()
 	{
 		var sendHupWrapper = $('.sendHupWrapper');
-		if ($(sendHupWrapper).hasClass('active'))
-		{
-			closeHupForm();
-		}
-		else
+		if (! $(sendHupWrapper).hasClass('active'))
 		{
 			openHupForm();
 		}
+	});
+
+	$('.closeHupFormTrigger').on('click', function ()
+	{
+		closeHupForm();
 	});
 
 });
@@ -405,13 +406,18 @@ function openHupForm()
 	var sendHupWrapper = $('.sendHupWrapper');
 	var hupFormWrapper = $('.hupFormWrapper');
 	var sendHupTrigger = $('.sendHupTrigger');
+	var closeHupFormTrigger = $('.closeHupFormTrigger');
 	$(sendHupWrapper).addClass('active');
+	$(sendHupWrapper).closest('.screen').removeClass('active');
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
-	$(sendHupTrigger).text('Sluiten');
+	$(closeHupFormTrigger).fadeIn();
+
+	$(sendHupWrapper).width($(window).width());
 	$(sendHupWrapper).height($(window).height());
 	setTimeout(function(){
 	$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
 	},200);
+
 
 	blockNavSwipe();
 }
@@ -421,22 +427,14 @@ function closeHupForm()
 	var sendHupWrapper = $('.sendHupWrapper');
 	var hupFormWrapper = $('.hupFormWrapper');
 	var sendHupTrigger = $('.sendHupTrigger');
+	var closeHupFormTrigger = $('.closeHupFormTrigger');
+	$(closeHupFormTrigger).hide();
 	$(sendHupWrapper).removeClass('active');
+	$(sendHupWrapper).closest('.screen').addClass('active');
 	$(hupFormWrapper).hide();
-	$(sendHupTrigger).text('Hup!');
 	$(sendHupWrapper).height('50px');
 	unBlockNavSwipe();
 }
-
-var virtualKeyboardHeight = function ()
-{
-	var sx = document.body.scrollLeft, sy = document.body.scrollTop;
-	var naturalHeight = window.innerHeight;
-	window.scrollTo(sx, document.body.scrollHeight);
-	var keyboardHeight = naturalHeight - window.innerHeight;
-	window.scrollTo(sx, sy);
-	return keyboardHeight;
-};
 
 function filter(criteria, target)
 {
@@ -465,7 +463,6 @@ function filter(criteria, target)
 	}
 
 }
-
 
 /********************************************************************************
  ******************************* RSS READER *************************************
