@@ -21,7 +21,7 @@
 <!-- MENUKNOPPEN -->
 <div class="appHeader">
 	<div class="row">
-		<div id="moneycount">&euro; 3.000</div>
+		<div id="moneycount"></div>
 	</div>
 
 	<div class="row menu clear">
@@ -96,7 +96,6 @@
 			<div class="container content">Nieuws laden...</div>
 		</div>
 
-
 	</div>
 	<!-- Cordova --->
 	<script type="text/javascript" src="cordova.js"></script>
@@ -128,8 +127,6 @@
 		$(document).ready(function ()
 		{
 
-
-
 			//SocketID resetten
 			//localStorage.setItem('SocketID', null);
 
@@ -142,9 +139,11 @@
 
 			var channel = pusher.subscribe('test_channel');
 
-			loadScores();
-			loadNews();
-			loadHups();
+//			loadScores();
+				loadNews();
+		//	loadHups();
+
+				loadHupsNScores();
 
 			/*
 			pusher.connection.bind('connected', function() {
@@ -161,10 +160,17 @@
 			//Luisteren naar updates vanaf de Server
 			channel.bind('my_event', function(data) {
 
-				//Data is altijd in de vorm van een JSON
-				data = JSON.parse(data);
+			//Data is altijd in de vorm van een JSON
+			data = JSON.parse(data);
 
+			//alert(data.Type);
 
+			if (data.Type === 'updateHupsNScores') {
+
+				//alert("bos");
+
+				loadHupsNScores();
+			}
 				//processNews(data.News.Messages);
 			});
 

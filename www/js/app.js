@@ -39,92 +39,92 @@ function onResume()
 //	if (jsonNews) { processNews(jsonNews) }
 //}
 
-function getTimeStamp(sDataStream) {
-
-	var sName = sDataStream + 'TimeStamp';
-
-	var iTimeStamp = localStorage.getItem(sName);
-
-	if (!isNumeric(iTimeStamp)) {
-
-		iTimeStamp = 0;
-	}
-
-	return iTimeStamp;
-}
-
-function setTimeStamp(sDataStream, iTimeStamp) {
-
-	var sName = sDataStream + 'TimeStamp';
-
-	if (!isNumeric(iTimeStamp)) {
-
-		iTimeStamp = 0;
-	}
-
-	localStorage.setItem(sName, iTimeStamp);
-}
-
-function isNumeric(val) {
-
-	return Number(parseFloat(val))== val;
-}
-
-//getScores?ts=1231&ed=5
-
-function loadScores()
-{
-
-	doJSONP('onScoresLoaded', '');
-}
-
-function reloadScores()
-{
-
-//	var iTimeStamp = 0;
+//function getTimeStamp(sDataStream) {
 //
-//	if (localStorage.getItem("lastScoreUpdate") > 0) {
+//	var sName = sDataStream + 'TimeStamp';
 //
-//		iTimeStamp = localStorage.getItem("lastScoreUpdate");
+//	var iTimeStamp = localStorage.getItem(sName);
+//
+//	if (!isNumeric(iTimeStamp)) {
+//
+//		iTimeStamp = 0;
 //	}
+//
+//	return iTimeStamp;
+//}
 
-	doJSONP('onScoresLoaded', '');
-}
-
-function onScoresLoaded(jsonData)
-{
-
-	//Oude interval clearen
-	clearInterval(newsInterval);
-
-	//getScoreLijst(jsonData);
-
-	//TimeStamp opslaan in de localstorage
-	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
-
-	//alert(jsonData.Deelnemers);
-
-	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
-	setScreenDimensions();
-}
-
-function setLoadScoresInterval(ms)
-{
-
-	if (ms === undefined)
-	{
-
-		ms = 3000;
-	}
-
-	newsInterval = setInterval(reloadScores, ms);
-}
+//function setTimeStamp(sDataStream, iTimeStamp) {
+//
+//	var sName = sDataStream + 'TimeStamp';
+//
+//	if (!isNumeric(iTimeStamp)) {
+//
+//		iTimeStamp = 0;
+//	}
+//
+//	localStorage.setItem(sName, iTimeStamp);
+//}
+//
+//function isNumeric(val) {
+//
+//	return Number(parseFloat(val))== val;
+//}
+//
+////getScores?ts=1231&ed=5
+//
+//function loadScores()
+//{
+//
+//	doJSONP('onScoresLoaded', '');
+//}
+//
+//function reloadScores()
+//{
+//
+////	var iTimeStamp = 0;
+////
+////	if (localStorage.getItem("lastScoreUpdate") > 0) {
+////
+////		iTimeStamp = localStorage.getItem("lastScoreUpdate");
+////	}
+//
+//	doJSONP('onScoresLoaded', '');
+//}
+//
+//function onScoresLoaded(jsonData)
+//{
+//
+//	//Oude interval clearen
+//	clearInterval(newsInterval);
+//
+//	//getScoreLijst(jsonData);
+//
+//	//TimeStamp opslaan in de localstorage
+//	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
+//
+//	//alert(jsonData.Deelnemers);
+//
+//	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
+//	setScreenDimensions();
+//}
+//
+//function setLoadScoresInterval(ms)
+//{
+//
+//	if (ms === undefined)
+//	{
+//
+//		ms = 3000;
+//	}
+//
+//	newsInterval = setInterval(reloadScores, ms);
+//}
 
 function processNews(jsonNews) {
 
 	//setTimeStamp( 'News' , jsonNews.TimeStamp);
 
-	console.log(jsonNews.Messages);
+	//console.log(jsonNews.Messages);
 
 	var storedMessages = localStorage.getItem('News');
 
@@ -211,16 +211,16 @@ function showNews() {
 //	return somevalue;
 //}
 
-function pokeScores()
-{
-	doJSONP('onScoresLoaded', '');
-}
+//function pokeScores()
+//{
+//	doJSONP('onScoresLoaded', '');
+//}
 
-function processScores(data) {
-
-	$('.deelnemerOverzicht').html(data.Deelnemers);
-	setScreenDimensions();
-}
+//function processScores(data) {
+//
+//	$('.deelnemerOverzicht').html(data.Deelnemers);
+//	setScreenDimensions();
+//}
 
 function loadNews()
 {
@@ -248,7 +248,6 @@ function loadNews()
 
 function onNewsLoaded(jsonData)
 {
-
 	//Oude interval clearen
 	clearInterval(newsInterval);
 
@@ -275,13 +274,67 @@ function onNewsLoaded(jsonData)
 //	newsInterval = setInterval(reloadNews, ms);
 //}
 
-function loadHups()
-{
+//function loadHups()
+//{
+//
+//	doJSONP('onHupsLoaded', '');
+//}
 
-	doJSONP('onHupsLoaded', '');
+function loadHupsNScores() //CallBack: onHupsNScoresLoaded
+{
+	url = 'http://fietsenvoor.nl/themes/fietsenvoor/hupsnscores.json';
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
 }
 
-function submitHup(e)
+function onHupsNScoresLoaded(jsonData) {
+
+	jsonData = JSON.parse(jsonData);
+
+	var sHupHTML = "";
+
+	jQuery.each(jsonData.Hups, function(i, val) {
+
+		sHupHTML += '<div class="hupItem infoBlock">';
+		sHupHTML += '<div class="name header">' + val.Name + '</div>';
+		sHupHTML += '<div class="content">' + val.Message + '</div>';
+		sHupHTML += '</div>';
+	});
+
+	var sParticipantsHTML = "";
+
+	jQuery.each(jsonData.Participants, function(i, val) {
+
+		sParticipantsHTML += '<div class="deelnemer infoBlock clear">';
+		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
+		sParticipantsHTML += '<div class="details content clear">';
+		sParticipantsHTML += '<div class="detail doel">' + val.Toppen + '</div>';
+		sParticipantsHTML += '<div class="detail gehaald">' + val.GehaaldeToppen + ' (' + val.Percentage + '%)</div>';
+		sParticipantsHTML += '<div class="detail bedrag">' + val.Bedrag + '</div>';
+		sParticipantsHTML += '</div></div>';
+	});
+
+	/** TODO: Datavalidatie **/
+
+	//Hupjes laten zien
+	var hupOverview = $('.hupOverview');
+	$(hupOverview).html(sHupHTML);
+
+	//Deelnemers/Scores laten zien
+	$('.deelnemerOverzicht').html(sParticipantsHTML);
+
+	//Totaalbedrag laten zien
+	$('#moneycount').html('&#8364; ' + jsonData.TotaalBedrag)
+
+	setScreenDimensions();
+}
+
+function submitHup(e) //CallBack: onSubmitHup
 {
 	e.preventDefault();
 	var sName = $('.hupFormWrapper #name').val();
@@ -289,22 +342,32 @@ function submitHup(e)
 
 	var sExtraGetString = 'sndr=' + sName + '&msg=' + sMessage;
 
-	doJSONP('onHupsLoaded', sExtraGetString);
+	url = BASE_URL + '/insertHup?' + sExtraGetString;
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
+
 	closeHupForm();
 	$('.screen.active').scrollTop(0);
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
 
-function onHupsLoaded(jsonData)
-{
+function onSubmitHup(success) {
 
-	//Hupjes zijn geladen: Laten zien
-	var hupOverview = $('.hupOverview');
-	$(hupOverview).html(jsonData.Hups);
+	if (success === true) {
 
-	setScreenDimensions();
+		//loadHupsNScores();
+	}
 }
 
+//function onHupsLoaded(jsonData)
+//{
+//	loadHupsNScores();
+//}
 
 //Doe een JSONP-request
 function doJSONP(sCallBack, sExtraGetString)
@@ -332,7 +395,7 @@ function doJSONP(sCallBack, sExtraGetString)
 	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
 	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
 
-	console.log(url);
+//	console.log(url);
 
 	var head = document.head;
 	var script = document.createElement("script");
@@ -482,7 +545,6 @@ $(document).ready(function ()
 			openHupForm();
 		}
 	});
-
 });
 
 $(window).resize(function ()
@@ -624,8 +686,6 @@ function filter(criteria, target)
 	}
 
 }
-
-
 /********************************************************************************
  ******************************* RSS READER *************************************
  ********************************************************************************/
