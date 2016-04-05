@@ -120,86 +120,86 @@ function onResume()
 //	newsInterval = setInterval(reloadScores, ms);
 //}
 
-function processNews(jsonNews) {
+//function processNews(jsonNews) {
+//
+//	//setTimeStamp( 'News' , jsonNews.TimeStamp);
+//
+//	//console.log(jsonNews.Messages);
+//
+//	var storedMessages = localStorage.getItem('News');
+//
+//	//alert(storedMessages.Messages);
+//
+//	if (storedMessages) {
+//
+//		$.each(jsonNews.Messages,function(i, item) {
+//
+//			var ID = item.ID;
+//
+//			var index = storedMessages.length + 1;
+//
+//			$.each(storedMessages,function(j, curr_item) {
+//
+//				if (curr_item.ID == ID) {
+//
+//					delete storedMessages[j];
+//
+//					index = j;
+//				}
+//			});
+//
+//			storedMessages[index] = item;
+//		});
+//
+//		localStorage.setItem('News', jsonNews.Messages);
+//		//localStorage.setItem('News', storedMessages);
+//
+//	} else {
+//
+//		localStorage.setItem('News', jsonNews.Messages);
+//	}
+//
+//	showNews();
+//}
 
-	//setTimeStamp( 'News' , jsonNews.TimeStamp);
-
-	//console.log(jsonNews.Messages);
-
-	var storedMessages = localStorage.getItem('News');
-
-	//alert(storedMessages.Messages);
-
-	if (storedMessages) {
-
-		$.each(jsonNews.Messages,function(i, item) {
-
-			var ID = item.ID;
-
-			var index = storedMessages.length + 1;
-
-			$.each(storedMessages,function(j, curr_item) {
-
-				if (curr_item.ID == ID) {
-
-					delete storedMessages[j];
-
-					index = j;
-				}
-			});
-
-			storedMessages[index] = item;
-		});
-
-		localStorage.setItem('News', jsonNews.Messages);
-		//localStorage.setItem('News', storedMessages);
-
-	} else {
-
-		localStorage.setItem('News', jsonNews.Messages);
-	}
-
-	showNews();
-}
-
-function showNews() {
-
-	var storedMessages = localStorage.getItem('News');
-
-	var sNewsItems = "";
-
-	if (storedMessages) {
-
-		$.each(storedMessages,function(i, item) {
-
-			var sTitle = item.Title;
-
-			sNewsItems += `<div class="row top">
-				<section id="content">
-					<article id="content_wrapper" class="blogEntry clearfix">
-						<h1 class="postTitle">${sTitle}</h1>'
-
-					${item.Message}
-
-						<span class="post-metadata">Geplaatst op ${item.Date}</span>
-
-					</article>
-				</section>
-			</div>`;
-		});
-	}
-
-	//alert(sNewsItems);
-
-
-
-
-//	//HTML decoderen
-//	var decoded = $("<div/>").html(sNewsItems).text();
-//	//Nieuws laten zien
-//	$('#nieuws .content').html(decoded);
-//	setScreenDimensions();
-}
+//function showNews() {
+//
+////	var storedMessages = localStorage.getItem('News');
+////
+////	var sNewsItems = "";
+////
+////	if (storedMessages) {
+////
+////		$.each(storedMessages,function(i, item) {
+////
+////			var sTitle = item.Title;
+////
+////			sNewsItems += `<div class="row top">
+////				<section id="content">
+////					<article id="content_wrapper" class="blogEntry clearfix">
+////						<h1 class="postTitle">${sTitle}</h1>'
+////
+////					${item.Message}
+////
+////						<span class="post-metadata">Geplaatst op ${item.Date}</span>
+////
+////					</article>
+////				</section>
+////			</div>`;
+////		});
+////	}
+//
+//	//alert(sNewsItems);
+//
+//
+//
+//
+////	//HTML decoderen
+////	var decoded = $("<div/>").html(sNewsItems).text();
+////	//Nieuws laten zien
+////	$('#nieuws .content').html(decoded);
+////	setScreenDimensions();
+//}
 
 //function makeSureThisIsAnArray(somevalue) {
 //
@@ -329,7 +329,7 @@ function onHupsNScoresLoaded(jsonData) {
 	$('.deelnemerOverzicht').html(sParticipantsHTML);
 
 	//Totaalbedrag laten zien
-	$('#moneycount').html('&#8364; ' + jsonData.TotaalBedrag)
+	$('#moneyHeader .value').html(jsonData.TotaalBedrag);
 
 	setScreenDimensions();
 }
@@ -536,15 +536,17 @@ $(document).ready(function ()
 	$('.sendHupTrigger').on('click', function ()
 	{
 		var sendHupWrapper = $('.sendHupWrapper');
-		if ($(sendHupWrapper).hasClass('active'))
-		{
-			closeHupForm();
-		}
-		else
+		if (! $(sendHupWrapper).hasClass('active'))
 		{
 			openHupForm();
 		}
 	});
+
+	$('.closeHupFormTrigger').on('click', function ()
+	{
+		closeHupForm();
+	});
+
 });
 
 $(window).resize(function ()
@@ -626,13 +628,18 @@ function openHupForm()
 	var sendHupWrapper = $('.sendHupWrapper');
 	var hupFormWrapper = $('.hupFormWrapper');
 	var sendHupTrigger = $('.sendHupTrigger');
+	var closeHupFormTrigger = $('.closeHupFormTrigger');
 	$(sendHupWrapper).addClass('active');
+	$(sendHupWrapper).closest('.screen').removeClass('active');
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
-	$(sendHupTrigger).text('Sluiten');
+	$(closeHupFormTrigger).fadeIn();
+
+	$(sendHupWrapper).width($(window).width());
 	$(sendHupWrapper).height($(window).height());
 	setTimeout(function(){
 	$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
 	},200);
+
 
 	blockNavSwipe();
 }
@@ -642,22 +649,14 @@ function closeHupForm()
 	var sendHupWrapper = $('.sendHupWrapper');
 	var hupFormWrapper = $('.hupFormWrapper');
 	var sendHupTrigger = $('.sendHupTrigger');
+	var closeHupFormTrigger = $('.closeHupFormTrigger');
+	$(closeHupFormTrigger).hide();
 	$(sendHupWrapper).removeClass('active');
+	$(sendHupWrapper).closest('.screen').addClass('active');
 	$(hupFormWrapper).hide();
-	$(sendHupTrigger).text('Hup!');
 	$(sendHupWrapper).height('50px');
 	unBlockNavSwipe();
 }
-
-var virtualKeyboardHeight = function ()
-{
-	var sx = document.body.scrollLeft, sy = document.body.scrollTop;
-	var naturalHeight = window.innerHeight;
-	window.scrollTo(sx, document.body.scrollHeight);
-	var keyboardHeight = naturalHeight - window.innerHeight;
-	window.scrollTo(sx, sy);
-	return keyboardHeight;
-};
 
 function filter(criteria, target)
 {
@@ -686,6 +685,7 @@ function filter(criteria, target)
 	}
 
 }
+
 /********************************************************************************
  ******************************* RSS READER *************************************
  ********************************************************************************/

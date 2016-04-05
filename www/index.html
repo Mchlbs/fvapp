@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html>
 <head>
+	<html>
 
 	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
 	<meta name="format-detection" content="telephone=no">
 	<meta name="msapplication-tap-highlight" content="no">
 	<meta name="viewport"
-				content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+				content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width,  height=device-height">
 
 
 	<!-- CSS -->
@@ -16,12 +16,17 @@
 	<link rel="stylesheet" href="css/app.css">
 
 	<title>Fietsenvoor LIVE</title>
-</head>
+	</head>
 <body>
 <!-- MENUKNOPPEN -->
 <div class="appHeader">
 	<div class="row">
-		<div id="moneycount"></div>
+
+		<div id="moneyHeader">
+		<div class="moneyDesc">Tussenstand</div>
+		<div class="moneyCount">&euro; <span class="value">0,00</span></div>
+		</div>
+
 	</div>
 
 	<div class="row menu clear">
@@ -33,7 +38,7 @@
 
 <div class="mainContent clear">
 	<div class="screenWrapper">
-		<div class="row screen" id="hup" data-screenid="1">
+		<div class="row screen active" id="hup" data-screenid="1">
 			<div class="container">
 				<h1 class="postTitle">Hupjes!</h1>
 				<div class="hupOverview"></div>
@@ -43,6 +48,7 @@
 							<div class="sendHupTrigger">
 								Hup!
 							</div>
+							<div class="closeHupFormTrigger"><div class="icon iconClose iconSmall iconInvert"></div></div>
 							<div class="container">
 								<div class="hupFormWrapper">
 									<form>
@@ -50,7 +56,7 @@
 										<div class="textareaHolder">
 											<textarea id="hupMessage" placeholder="Jouw aanmoediging..."></textarea>
 										</div>
-										<input type="submit" class="submitHup">
+										<input type="submit" class="submitHup" value="verzenden">
 									</form>
 								</div>
 							</div>
@@ -92,7 +98,7 @@
 			</div>
 		</div>
 
-		<div class="row screen active" id="nieuws" data-screenid="3">
+		<div class="row screen" id="nieuws" data-screenid="3">
 			<div class="container content">Nieuws laden...</div>
 		</div>
 
