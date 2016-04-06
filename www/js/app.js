@@ -15,236 +15,10 @@ function onResume()
 {
 }
 
-//function pokeServer() {
-//
-//	alert("Michiel");
-//
-//	var sExtraGetString = "";
-//
-//	sExtraGetString += 'tsn=0';
-//	//sExtraGetString += 'tsn='  + getTimeStamp('News');
-//	sExtraGetString += '&tss=' + getTimeStamp('Scores');
-//	sExtraGetString += '&tsh=' + getTimeStamp('Hups');
-//
-//	doJSONP('poke', sExtraGetString);
-//}
-
-////Return van het poken van de Server
-//function poke(data) {
-//
-//	var jsonNews = data.News;
-//
-//	alert("Mciheil");
-//
-//	if (jsonNews) { processNews(jsonNews) }
-//}
-
-//function getTimeStamp(sDataStream) {
-//
-//	var sName = sDataStream + 'TimeStamp';
-//
-//	var iTimeStamp = localStorage.getItem(sName);
-//
-//	if (!isNumeric(iTimeStamp)) {
-//
-//		iTimeStamp = 0;
-//	}
-//
-//	return iTimeStamp;
-//}
-
-//function setTimeStamp(sDataStream, iTimeStamp) {
-//
-//	var sName = sDataStream + 'TimeStamp';
-//
-//	if (!isNumeric(iTimeStamp)) {
-//
-//		iTimeStamp = 0;
-//	}
-//
-//	localStorage.setItem(sName, iTimeStamp);
-//}
-//
-//function isNumeric(val) {
-//
-//	return Number(parseFloat(val))== val;
-//}
-//
-////getScores?ts=1231&ed=5
-//
-//function loadScores()
-//{
-//
-//	doJSONP('onScoresLoaded', '');
-//}
-//
-//function reloadScores()
-//{
-//
-////	var iTimeStamp = 0;
-////
-////	if (localStorage.getItem("lastScoreUpdate") > 0) {
-////
-////		iTimeStamp = localStorage.getItem("lastScoreUpdate");
-////	}
-//
-//	doJSONP('onScoresLoaded', '');
-//}
-//
-//function onScoresLoaded(jsonData)
-//{
-//
-//	//Oude interval clearen
-//	clearInterval(newsInterval);
-//
-//	//getScoreLijst(jsonData);
-//
-//	//TimeStamp opslaan in de localstorage
-//	//localStorage.setItem("lastScoresUpdate", jsonData.Meta['Tijd']);
-//
-//	//alert(jsonData.Deelnemers);
-//
-//	$('.deelnemerOverzicht').html(jsonData.Deelnemers);
-//	setScreenDimensions();
-//}
-//
-//function setLoadScoresInterval(ms)
-//{
-//
-//	if (ms === undefined)
-//	{
-//
-//		ms = 3000;
-//	}
-//
-//	newsInterval = setInterval(reloadScores, ms);
-//}
-
-//function processNews(jsonNews) {
-//
-//	//setTimeStamp( 'News' , jsonNews.TimeStamp);
-//
-//	//console.log(jsonNews.Messages);
-//
-//	var storedMessages = localStorage.getItem('News');
-//
-//	//alert(storedMessages.Messages);
-//
-//	if (storedMessages) {
-//
-//		$.each(jsonNews.Messages,function(i, item) {
-//
-//			var ID = item.ID;
-//
-//			var index = storedMessages.length + 1;
-//
-//			$.each(storedMessages,function(j, curr_item) {
-//
-//				if (curr_item.ID == ID) {
-//
-//					delete storedMessages[j];
-//
-//					index = j;
-//				}
-//			});
-//
-//			storedMessages[index] = item;
-//		});
-//
-//		localStorage.setItem('News', jsonNews.Messages);
-//		//localStorage.setItem('News', storedMessages);
-//
-//	} else {
-//
-//		localStorage.setItem('News', jsonNews.Messages);
-//	}
-//
-//	showNews();
-//}
-
-//function showNews() {
-//
-////	var storedMessages = localStorage.getItem('News');
-////
-////	var sNewsItems = "";
-////
-////	if (storedMessages) {
-////
-////		$.each(storedMessages,function(i, item) {
-////
-////			var sTitle = item.Title;
-////
-////			sNewsItems += `<div class="row top">
-////				<section id="content">
-////					<article id="content_wrapper" class="blogEntry clearfix">
-////						<h1 class="postTitle">${sTitle}</h1>'
-////
-////					${item.Message}
-////
-////						<span class="post-metadata">Geplaatst op ${item.Date}</span>
-////
-////					</article>
-////				</section>
-////			</div>`;
-////		});
-////	}
-//
-//	//alert(sNewsItems);
-//
-//
-//
-//
-////	//HTML decoderen
-////	var decoded = $("<div/>").html(sNewsItems).text();
-////	//Nieuws laten zien
-////	$('#nieuws .content').html(decoded);
-////	setScreenDimensions();
-//}
-
-//function makeSureThisIsAnArray(somevalue) {
-//
-//	if (!$.isArray(somevalue)) {
-//
-//		somevalue = [];
-//	}
-//
-//	return somevalue;
-//}
-
-//function pokeScores()
-//{
-//	doJSONP('onScoresLoaded', '');
-//}
-
-//function processScores(data) {
-//
-//	$('.deelnemerOverzicht').html(data.Deelnemers);
-//	setScreenDimensions();
-//}
-
 function loadNews()
 {
-
-	/** RELOAD UIT **/
-		//Nieuwe interval starten
-		//setLoadNewsInterval();
-
 	doJSONP('onNewsLoaded', '');
 }
-
-//function reloadNews()
-//{
-//
-//	var iTimeStamp = 0;
-//
-//	if (localStorage.getItem("lastNewsUpdate") > 0)
-//	{
-//
-//		iTimeStamp = localStorage.getItem("lastNewsUpdate");
-//	}
-//
-//	doJSONP('onNewsLoaded', '');
-//}
 
 function onNewsLoaded(jsonData)
 {
@@ -262,24 +36,6 @@ function onNewsLoaded(jsonData)
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
 }
 
-//function setLoadNewsInterval(ms)
-//{
-//
-//	if (ms === undefined)
-//	{
-//
-//		ms = 10000;
-//	}
-//
-//	newsInterval = setInterval(reloadNews, ms);
-//}
-
-//function loadHups()
-//{
-//
-//	doJSONP('onHupsLoaded', '');
-//}
-
 function loadHupsNScores() //CallBack: onHupsNScoresLoaded
 {
 	url = 'http://fietsenvoor.nl/themes/fietsenvoor/hupsnscores.json';
@@ -292,6 +48,7 @@ function loadHupsNScores() //CallBack: onHupsNScoresLoaded
 	head.removeChild(script);
 }
 
+//Aangeroepen als callback van LoadHupsNScores() (zie backend)
 function onHupsNScoresLoaded(jsonData) {
 
 	jsonData = JSON.parse(jsonData);
@@ -300,10 +57,7 @@ function onHupsNScoresLoaded(jsonData) {
 
 	jQuery.each(jsonData.Hups, function(i, val) {
 
-		sHupHTML += '<div class="hupItem infoBlock">';
-		sHupHTML += '<div class="name header">' + val.Name + '</div>';
-		sHupHTML += '<div class="content">' + val.Message + '</div>';
-		sHupHTML += '</div>';
+		sHupHTML += getHupHTML(val.Name, val.Message);
 	});
 
 	var sParticipantsHTML = "";
@@ -334,6 +88,18 @@ function onHupsNScoresLoaded(jsonData) {
 	setScreenDimensions();
 }
 
+function getHupHTML(name, message) {
+
+	var sHupHTML = "";
+
+	sHupHTML += '<div class="hupItem infoBlock">';
+	sHupHTML += '<div class="name header">' + name + '</div>';
+	sHupHTML += '<div class="content">' + message + '</div>';
+	sHupHTML += '</div>';
+
+	return sHupHTML;
+}
+
 function submitHup(e) //CallBack: onSubmitHup
 {
 	e.preventDefault();
@@ -351,7 +117,12 @@ function submitHup(e) //CallBack: onSubmitHup
 	head.appendChild(script);
 	head.removeChild(script);
 
+	var sNewHupHTML = getHupHTML(sName, sMessage);
+
+	$('.hupOverview').prepend(sNewHupHTML);
+
 	closeHupForm();
+
 	$('.screen.active').scrollTop(0);
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
@@ -363,11 +134,6 @@ function onSubmitHup(success) {
 		//loadHupsNScores();
 	}
 }
-
-//function onHupsLoaded(jsonData)
-//{
-//	loadHupsNScores();
-//}
 
 //Doe een JSONP-request
 function doJSONP(sCallBack, sExtraGetString)
@@ -404,59 +170,6 @@ function doJSONP(sCallBack, sExtraGetString)
 	head.appendChild(script);
 	head.removeChild(script);
 }
-
-////Callback Function
-//function getScoreLijst(json)
-//{
-//	if(json !== undefined ) {
-//
-//		$('#chart').html("").json2html(json, transforms.scorelijst);
-//	}
-//}
-//
-//var transforms = {
-//
-//	'scorelijst': [
-//		{ "tag" : "table",
-//			"data-role" : "table",
-//			"class" : "scoreList CSSTableGenerator ui-responsive",
-//			"children" : [
-//				{ "tag" : "thead",
-//					"children" : [
-//						{ "tag" : "tr",
-//							"children" : [
-//								{ "tag" : "th",
-//									"html" : "Naam"
-//								},
-//								{ "tag" : "th",
-//									"html" : "Doel"
-//								},
-//								{ "tag" : "th",
-//									"html" : "Gehaald"
-//								},
-//								{ "tag" : "th",
-//									"html" : "Bedrag"
-//								}
-//							]
-//						}
-//					]
-//				},
-//				{ "tag" : "tbody",
-//					"children" : function() { return(json2html.transform(this.Deelnemers,transforms.deelnemers)); }
-//				}
-//			]
-//		}
-//	],
-//
-//	'deelnemers' : [
-//		{ "tag":"tr","class":"deelnemer","children":[
-//			{"tag":"td","class":"naam","html":"${naam}"},
-//			{"tag":"td","class":"toppen","html":"${toppen}"},
-//			{"tag":"td","class":"gehaaldetoppen","html":"${gehaaldetoppen}"},
-//			{"tag":"td","class":"bedrag","html":"${bedrag}"}
-//		]}
-//	]
-//};
 
 /********************************************************************************
  ******************************* LAYOUT / UI *************************************
@@ -556,7 +269,7 @@ $(window).resize(function ()
 window.onhashchange = function (event)
 {
 
-	alert('test');
+//	alert('test');
 };
 
 function setScreenDimensions()
