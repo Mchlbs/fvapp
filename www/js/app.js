@@ -28,6 +28,8 @@ function onNewsLoaded(jsonData)
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 
+	decoded = decoded.replace(/<*src *= *["\']/g, 'src="http://fietsenvoor.nl/' );
+
 	//Nieuws laten zien
 	$('#nieuws .content').html(decoded);
 	setScreenDimensions();
@@ -206,7 +208,7 @@ $(document).ready(function ()
 	{
 		$('.splashScreen').addClass('bounceOut');
 		$('body').removeClass('navSwipeBlocked');
-	}, 1000);
+	}, 1300);
 
 	$('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 
