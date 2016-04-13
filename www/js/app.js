@@ -59,16 +59,22 @@ function onHupsNScoresLoaded(jsonData)
 
 	jQuery.each(jsonData.Hups, function (i, val)
 	{
-
-		sHupHTML += getHupHTML(val.Name, val.Message);
+		sHupHTML += getHupHTML(val.Name,val.Participant, val.Message);
 	});
 
 	var sParticipantsHTML = "";
+	var sFotoUrl;
 
 	jQuery.each(jsonData.Participants, function (i, val)
 	{
+		sFotoUrl = "img/deelnemerDummy.png";
+		if(val.FotoUrl != null)
+		{
+			sFotoUrl = val.FotoUrl;
+		}
+
 		sParticipantsHTML += '<div class="deelnemer clear">';
-		sParticipantsHTML += '<div class="photoHolder"><img src="img/deelnemerDummy.png"></div>';
+		sParticipantsHTML += '<div class="photoHolder"><img src="' + sFotoUrl + '"></div>';
 		sParticipantsHTML += '<div class="contentHolder">';
 		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
 		sParticipantsHTML += '<div class="details content clear">';
@@ -140,6 +146,14 @@ function submitHup(e) //CallBack: onSubmitHup
 
 	$('.screen.active').scrollTop(0);
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
+}
+
+function onSubmitHup(success) {
+
+	if (success === true) {
+
+		//loadHupsNScores();
+	}
 }
 
 //Doe een JSONP-request
@@ -429,7 +443,7 @@ function getParticipantsDropdownOptions()
 			var html = '';
 			$(participants).each(function (i, val)
 			{
-				html += '<option value="' + val.Name + '">' + val.Name + '</option>'
+				html += '<option value="' + val.Voornaam + '">' + val.Name + '</option>'
 			});
 			return html;
 		}
