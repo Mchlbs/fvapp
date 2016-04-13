@@ -151,12 +151,12 @@ function doJSONP(sCallBack, sExtraGetString)
 		sExtraGetString = '';
 	}
 
-	var SessionID = localStorage.getItem('SocketID');
-
-	if (SessionID.length > 3) {
-
-		sExtraGetString += '&sid=' + SessionID;
-	}
+//	var SessionID = localStorage.getItem('SocketID');
+//
+//	if (SessionID.length > 3) {
+//
+//		sExtraGetString += '&sid=' + SessionID;
+//	}
 
 	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
 	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
