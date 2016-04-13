@@ -17,7 +17,13 @@
 
 	<title>Fietsenvoor LIVE</title>
 	</head>
-<body>
+<body class="navSwipeBlocked">
+<div class="splashScreen">
+	<img src="img/splashLogo.png" class="splashLogo">
+	<div class="credits">
+		<img src="img/logo_hamaka_wit.png">App door Hamaka
+	</div>
+</div>
 <!-- MENUKNOPPEN -->
 <div class="appHeader">
 	<div class="row">
@@ -54,7 +60,10 @@
 						<div class="container">
 							<div class="hupFormWrapper">
 								<form>
-									<input id="name" type="text" placeholder="Naam">
+									<input id="name" type="text" placeholder="Jouw naam">
+									<select id="participant">
+										<option disabled>Deelnemer</option>
+									</select>
 									<div class="textareaHolder">
 										<textarea id="hupMessage" placeholder="Jouw aanmoediging..."></textarea>
 									</div>
@@ -70,27 +79,21 @@
 
 		<div class="row screen" id="scores" data-screenid="2">
 			<div class="container">
-				<h1 class="postTitle">Deelnemers</h1>
-
-				<div class="legend">
-					<div class="legendItem">
-						<div class="icon iconGoal iconSmall"></div>
-						Doel
-					</div>
-					<div class="legendItem">
-						<div class="icon iconMountain iconSmall"></div>
-						Gehaalde toppen
-					</div>
-					<div class="legendItem">
-						<div class="icon iconCoin iconSmall"></div>
-						Opgehaald
-					</div>
-				</div>
 
 				<div class="deelnemerOverzichtWrapper">
 					<div class="filterInput">
 						<input id="filterDeelnemers" data-target=".deelnemerOverzicht .naam" placeholder="Zoek een deelnemer"/>
 						<div class="exitFilterModus icon iconClose hidden"></div>
+					</div>
+					<div class="legend">
+						<div class="legendItem">
+							<div class="icon iconGoal iconSmall"></div>
+							= Doelstelling aantal toppen
+						</div>
+						<div class="legendItem">
+							<div class="icon iconCoin iconSmall"></div>
+							= Opgehaald bedrag
+						</div>
 					</div>
 					<div class="container">
 						<div class="noItemsFound">Geen deelnemers gevonden</div>

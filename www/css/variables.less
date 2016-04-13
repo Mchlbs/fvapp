@@ -11,7 +11,7 @@
 @fourthColor: #fbba0d;
 
 @grey1: #ececec;
-@grey2: #d9d9d9;
+@grey2: #cac9c9;
 @grey3: #b8b8b8;
 @grey4: #878787;
 @grey5: #f6f6f6;
@@ -19,7 +19,7 @@
 
 @black1: #231E1E;
 
-@primaryBackground: #ffffff;
+@primaryBackground: @grey5;
 
 @formInvalid: #f09999;
 @formFeedbackErr: #f00909;
@@ -31,19 +31,19 @@
 
 /* === Fonts =============================== */
 
-
 @font-face {
-    font-family: 'mittelschrift';
-    src: url('@{fontDir}/din1451alt-webfont.eot');
-    src: url('@{fontDir}/din1451alt-webfont.eot?#iefix') format('embedded-opentype'),
-         url('@{fontDir}/din1451alt-webfont.woff2') format('woff2'),
-         url('@{fontDir}/din1451alt-webfont.woff') format('woff'),
-         url('@{fontDir}/din1451alt-webfont.ttf') format('truetype'),
-         url('@{fontDir}/din1451alt-webfont.svg#alte_din_1451_mittelschriftRg') format('svg');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'mittelschrift';
+	src: url('@{fontDir}/din1451alt-webfont.eot');
+	src: url('@{fontDir}/din1451alt-webfont.eot?#iefix') format('embedded-opentype'),
+	url('@{fontDir}/din1451alt-webfont.woff2') format('woff2'),
+	url('@{fontDir}/din1451alt-webfont.woff') format('woff'),
+	url('@{fontDir}/din1451alt-webfont.ttf') format('truetype'),
+	url('@{fontDir}/din1451alt-webfont.svg#alte_din_1451_mittelschriftRg') format('svg');
+	font-weight: normal;
+	font-style: normal;
 
 }
+
 @fontStack: Arial, Helvetica, sans-serif;
 @fontMittel: 'mittelschrift', @fontStack;
 @fontSize: 15px;
@@ -212,6 +212,27 @@
 	transform: none;
 }
 
+.PlaceholderColor(@color, @opacity) {
+	::-webkit-input-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	:-moz-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	/* Firefox 18- */
+	::-moz-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	/* Firefox 19+ */
+	:-ms-input-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+}
+
 .Transition(@property, @duration, @easing, @delay) {
 	-webkit-transition: @property @duration @easing @delay;
 	-moz-transition: @property @duration @easing @delay;
@@ -262,4 +283,40 @@
 
 /* === Fietsenvoor specific ============== */
 
-		
+
+@-webkit-keyframes bounceOutLeft {
+	20% {
+		opacity: 1;
+		-webkit-transform: translate3d(20px, 0, 0);
+		transform: translate3d(20px, 0, 0);
+	}
+
+	to {
+		opacity: 0;
+		-webkit-transform: translate3d(-2000px, 0, 0);
+		transform: translate3d(-2000px, 0, 0);
+	}
+}
+
+@keyframes bounceOutLeft {
+	20% {
+		opacity: 1;
+		-webkit-transform: translate3d(20px, 0, 0);
+		transform: translate3d(20px, 0, 0);
+	}
+
+	to {
+		opacity: 0;
+		-webkit-transform: translate3d(-2000px, 0, 0);
+		transform: translate3d(-2000px, 0, 0);
+	}
+}
+
+.bounceOut {
+	-webkit-animation-name: bounceOutLeft;
+	animation-name: bounceOutLeft;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}

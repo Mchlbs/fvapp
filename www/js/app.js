@@ -51,8 +51,9 @@ function loadHupsNScores() //CallBack: onHupsNScoresLoaded
 //Aangeroepen als callback van LoadHupsNScores() (zie backend)
 function onHupsNScoresLoaded(jsonData)
 {
-
+	localStorage.setItem('jsonData', jsonData);
 	jsonData = JSON.parse(jsonData);
+
 
 	var sHupHTML = "";
 
@@ -66,14 +67,14 @@ function onHupsNScoresLoaded(jsonData)
 
 	jQuery.each(jsonData.Participants, function (i, val)
 	{
-
-		sParticipantsHTML += '<div class="deelnemer infoBlock clear">';
+		sParticipantsHTML += '<div class="deelnemer clear">';
+		sParticipantsHTML += '<div class="photoHolder"><img src="img/deelnemerDummy.png"></div>';
+		sParticipantsHTML += '<div class="contentHolder">';
 		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
 		sParticipantsHTML += '<div class="details content clear">';
-		sParticipantsHTML += '<div class="detail doel">' + val.Toppen + '</div>';
-		sParticipantsHTML += '<div class="detail gehaald">' + val.GehaaldeToppen + ' (' + val.Percentage + '%)</div>';
-		sParticipantsHTML += '<div class="detail bedrag">' + val.Bedrag + '</div>';
-		sParticipantsHTML += '</div></div>';
+		sParticipantsHTML += '<div class="detail doel">' + val.GehaaldeToppen + '/' + val.Toppen + '</div>';
+		sParticipantsHTML += '<div class="detail bedrag">&euro;' + val.Bedrag + '</div>';
+		sParticipantsHTML += '</div></div></div>';
 	});
 
 	/** TODO: Datavalidatie **/
@@ -91,15 +92,14 @@ function onHupsNScoresLoaded(jsonData)
 	setScreenDimensions();
 }
 
-function getHupHTML(name, message)
+function getHupHTML(name,sParticipant, message)
 {
-
 	var sHupHTML = "";
 	var participantHup = false;
 	if (!participantHup)
 	{
 		sHupHTML += '<div class="hupItem">';
-		sHupHTML += '<div class="header"><span class="sender">' + name + '</span><div class="triangle"></div><span class="participant">Rianne</span></div>';
+		sHupHTML += '<div class="header"><span class="sender">' + name + '</span><div class="triangle"></div><span class="participant">' + sParticipant + '</span></div>';
 		sHupHTML += '<div class="content">' + message + '</div>';
 		sHupHTML += '</div>';
 	}
@@ -110,7 +110,6 @@ function getHupHTML(name, message)
 		sHupHTML += '<div class="content">' + message + '</div>';
 		sHupHTML += '</div>';
 	}
-
 	return sHupHTML;
 }
 
@@ -118,9 +117,10 @@ function submitHup(e) //CallBack: onSubmitHup
 {
 	e.preventDefault();
 	var sName = $('.hupFormWrapper #name').val();
+	var sParticipant = $('.hupFormWrapper #participant').val();
 	var sMessage = $('.hupFormWrapper #hupMessage').val();
 
-	var sExtraGetString = 'sndr=' + sName + '&msg=' + sMessage;
+	var sExtraGetString = 'sndr=' + sName + '&part=' + sParticipant + '&msg=' + sMessage;
 
 	url = BASE_URL + '/insertHup?' + sExtraGetString;
 
@@ -131,24 +131,15 @@ function submitHup(e) //CallBack: onSubmitHup
 	head.appendChild(script);
 	head.removeChild(script);
 
-	var sNewHupHTML = getHupHTML(sName, sMessage);
+	var sNewHupHTML = getHupHTML(sName,sParticipant, sMessage);
 
 	$('.hupOverview').prepend(sNewHupHTML);
 
 	closeHupForm();
+	$('.hupFormWrapper #hupMessage').val('');
 
 	$('.screen.active').scrollTop(0);
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
-}
-
-function onSubmitHup(success)
-{
-
-	if (success === true)
-	{
-
-		//loadHupsNScores();
-	}
 }
 
 //Doe een JSONP-request
@@ -191,10 +182,18 @@ function doJSONP(sCallBack, sExtraGetString)
  ******************************* LAYOUT / UI *************************************
  ********************************************************************************/
 
+
 $(document).ready(function ()
 {
 	setScreenDimensions();
 	$('.screen').fadeIn();
+
+	setTimeout(function ()
+	{
+		$('.splashScreen').addClass('bounceOut');
+		$('body').removeClass('navSwipeBlocked');
+	}, 1000);
+
 	$('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 
 	$('.menu-button').on('click', function ()
@@ -275,6 +274,8 @@ $(document).ready(function ()
 	{
 		closeHupForm();
 	});
+
+	$('.hupFormWrapper #participant').append(getParticipantsDropdownOptions());
 
 });
 
@@ -399,21 +400,40 @@ function filter(criteria, target)
 		{
 			if ($(this).text().toUpperCase().indexOf(criteria.toUpperCase()) == -1)
 			{
-				$(this).parent().fadeOut(100);
+				$(this).closest('.deelnemer').fadeOut(100);
 				iterator++;
 				if (totalItems === iterator) $('.noItemsFound').show();
 			}
 			else
 			{
-				$(this).parent().fadeIn();
+				$(this).closest('.deelnemer').fadeIn();
 			}
 		});
 	}
 	else
 	{
-		$(target).parent().fadeIn();
+		$(target).closest('.deelnemer').fadeIn();
 	}
 
+}
+
+function getParticipantsDropdownOptions()
+{
+	var jsonData = localStorage.getItem('jsonData', jsonData);
+	jsonData = JSON.parse(jsonData);
+	if (jsonData && jsonData !== 'undefined')
+	{
+		var participants = jsonData.Participants;
+		if (participants && participants !== 'undefined')
+		{
+			var html = '';
+			$(participants).each(function (i, val)
+			{
+				html += '<option value="' + val.Name + '">' + val.Name + '</option>'
+			});
+			return html;
+		}
+	}
 }
 
 /********************************************************************************

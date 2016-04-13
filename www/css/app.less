@@ -4,6 +4,45 @@
 	box-sizing: border-box;
 }
 
+.PlaceholderColor(@grey2, 1); /* opacity: 0.5 is browser default */
+
+.splashScreen {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	left: -10%;
+	right: 0;
+	padding-left: 10%;
+	background: url("@{imgDir}/splashscreen.jpg") no-repeat bottom right;
+	background-size: cover;
+	z-index: 500;
+	.splashLogo {
+		max-width: 70%;
+		margin-top: 50px;
+		max-height: 40%;
+
+	}
+	.credits {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background: rgba(0, 0, 0, 0.4);
+		text-align: center;
+		color: #fff;
+		border: none;
+		padding: 10px 0;
+		font-weight: normal;
+		text-transform: none;
+		line-height: 20px;
+		margin-left: -10%;
+		img {
+			height: 20px;
+			vertical-align: middle;
+			margin-right: 10px;
+		}
+	}
+}
+
 .clear:after {
 	display: table;
 	content: " ";
@@ -15,7 +54,11 @@ body {
 	font-size: @fontSize;
 	color: @fontColor;
 	margin: 0;
-	background: @grey5;
+	background: @primaryBackground;
+	&.navSwipeBlocked {
+		overflow: hidden;
+	}
+
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -95,6 +138,9 @@ a {
 	&.active {
 		overflow-y: auto;
 	}
+	&#scores {
+		padding-top: 20px;
+	}
 }
 
 .container {
@@ -116,7 +162,9 @@ a {
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 50%;
+		width: auto;
+		max-height: 35px;
+		max-width: 50%;
 	}
 }
 
@@ -172,7 +220,7 @@ a {
 				bottom: -10px;
 				left: 50%;
 				margin-left: -10px;
-				.triangle(up, 20px, 8px, #fff);
+				.triangle(up, 20px, 8px, @primaryBackground);
 			}
 		}
 	}
@@ -248,45 +296,62 @@ a {
 }
 
 .legend {
-	margin: 20px 0;
+	margin: 10px 0 15px;
 }
 
 .legendItem {
+	font-family: @fontMittel;
+	font-size: 0.8em;
+	display: inline-block;
 	.icon {
+		width: 18px;
+		height: 20px;
 		display: inline-block;
-	}
-}
-
-.infoBlock {
-	background: @colorInfoBlock;
-	border-left: 3px solid @secondaryColor;
-	&:not(:last-child) {
-		margin-bottom: 15px;
-	}
-	.content {
-		padding: 5px 15px;
-	}
-	.header {
-		font-size: 1.1em;
-		background: @secondaryColor;
-		color: #fff;
-		padding: 2px 15px;
+		vertical-align: middle;
 	}
 }
 
 .deelnemerOverzicht {
+
+	.deelnemer {
+		position: relative;
+		min-height: 116px;
+		border-bottom: 1px solid @grey2;
+		padding: 20px 0;
+		font-family: @fontMittel;
+		.naam {
+			font-size: 1.4em;
+			margin-bottom: 5px;
+		}
+	}
+	.photoHolder {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		margin-top: -40px;
+		img {
+			.RoundedCorners(50%);
+			height: 76px;
+		}
+	}
+	.contentHolder {
+		padding-left: 90px;
+		display: inline-block;
+		vertical-align: middle;
+	}
 	.details {
 		> * {
-			width: 31%;
-			float: left;
+			width: auto;
+			display: inline-block;
+			font-size: 1.3em;
+			&:not(:last-child) {
+				margin-right: 15px;
+			}
 		}
 		.detail {
 			position: relative;
 			line-height: 20px;
-			padding-left: 20px;
-			&:not(:last-child) {
-				border-right: 1px solid @grey1;
-			}
+			padding-left: 25px;
 			&:before {
 				position: absolute;
 				left: 0;
@@ -306,25 +371,10 @@ a {
 			background: url("../img/icons/goal.png") no-repeat;
 			background-size: cover;
 		}
-		.gehaald {
-			padding-left: 30px;
-			width: 38%;
-			&:before {
-				background: url("../img/icons/mountain.png") no-repeat;
-				background-size: cover;
-			}
+		.bedrag:before {
+			background: url("../img/icons/coins.png") no-repeat;
+			background-size: contain;
 		}
-		.bedrag {
-			padding-left: 35px;
-			&:before {
-				content: '\20AC';
-				width: 30px;
-				margin-right: 0;
-				background: url("../img/icons/coins.png") no-repeat;
-				background-size: contain;
-			}
-		}
-
 	}
 }
 
@@ -337,9 +387,11 @@ a {
 	color: #fff;
 	padding: 0 6px 6px;
 	z-index: 100;
+	overflow: hidden;
 	&.active {
 		position: absolute;
-		top: -110px;
+		overflow: scroll;
+		top: -195px;
 		bottom: inherit;
 		background: @secondaryColor;
 		.inner {
@@ -377,9 +429,10 @@ a {
 	display: none;
 	margin-top: 10px;
 	width: 100%;
-	input, textarea {
+	input, textarea, select {
 		width: 100%;
-		border-color: @grey4;
+		border-color: @grey2;
+		background: #fff;
 		&:not(:last-child) {
 			margin-bottom: 10px;
 		}
@@ -397,9 +450,10 @@ a {
 	}
 }
 
-input, textarea {
+input, textarea, select {
 	border: none;
-	border-bottom: 1px solid @grey4;
+	font-family: @fontMittel;
+	border-bottom: 1px solid @grey2;
 	padding: 5px;
 	&:focus {
 		outline: none;
@@ -418,12 +472,12 @@ input, textarea {
 }
 
 .filterInput {
-	margin-bottom: 20px;
+	margin: 0 0 20px;
 	position: relative;
 	input {
 		width: 100%;
 		font-size: 1.2em;
-		background: @grey6;
+		background: @grey5;
 	}
 	.exitFilterModus {
 		position: absolute;
@@ -455,6 +509,11 @@ input, textarea {
 	input {
 		padding: 1em;
 		font-size: 1.4em;
+	}
+	.legend {
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-bottom: 0;
 	}
 	.deelnemerOverzicht {
 		overflow-y: auto;
