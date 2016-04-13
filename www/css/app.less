@@ -15,10 +15,12 @@ body {
 	font-size: @fontSize;
 	color: @fontColor;
 	margin: 0;
+	background: @grey5;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	text-rendering: auto;
+	font-family: @fontMittel;
 }
 
 h1, h2, h3, h4 {
@@ -74,7 +76,7 @@ a {
 	position: relative;
 	overflow: hidden;
 	max-width: 100%;
-	padding-top: 129px;
+	padding-top: 195px;
 }
 
 //Screens
@@ -104,25 +106,26 @@ a {
 	position: relative;
 	background: url("../img/headerbg.jpg") no-repeat top right;
 	background-size: cover;
-	height:115px;
+	height: 115px;
 	color: #fff;
 	text-align: center;
 	font-weight: 300;
 	padding: 1px 0;
-	.logo{
+	font-family: @fontMittel;
+	.logo {
 		position: absolute;
-		top:0;
-		left:0;
+		top: 0;
+		left: 0;
 		width: 50%;
 	}
 }
 
-.moneyCount{
+.moneyCount {
 	font-size: 3em;
 	line-height: 0.9em;
 }
 
-.moneyDesc{
+.moneyDesc {
 	margin-top: 35px;
 	font-size: 1.1em;
 	text-transform: uppercase;
@@ -158,7 +161,7 @@ a {
 		text-align: center;
 		height: 60px;
 		.Transition(all, .3s, ease, 0s);
-		&:nth-child(2){
+		&:nth-child(2) {
 			border-left: 1px solid #fff;
 			border-right: 1px solid #fff;
 		}
@@ -215,10 +218,12 @@ a {
 	&.iconClose {
 		background: url("../img/icons/close.png") no-repeat;
 		background-size: contain;
-	}&.iconTshirt {
+	}
+	&.iconTshirt {
 		background: url("../img/icons/t-shirt.png") no-repeat;
 		background-size: contain;
-	}&.iconThumb {
+	}
+	&.iconThumb {
 		background: url("../img/icons/thumb.png") no-repeat;
 		background-size: contain;
 	}
@@ -227,6 +232,11 @@ a {
 #nieuws {
 	.blogEntry {
 		margin-bottom: 50px;
+		img {
+			max-width: 100%;
+			height: auto;
+			margin: 15px auto;
+		}
 	}
 	.post-metadata {
 		background: @black1;
@@ -234,6 +244,7 @@ a {
 		padding: 2px 9px;
 		font-size: .8em;
 	}
+
 }
 
 .legend {
@@ -317,35 +328,34 @@ a {
 	}
 }
 
-.hupOverview {
-	margin-top: 20px;
-}
-
 .sendHupWrapper {
 	display: none;
 	position: fixed;
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 50px;
-	background: @secondaryColor;
 	color: #fff;
-	padding: 10px 20px;
+	padding: 0 6px 6px;
 	z-index: 100;
-	.Shadow(0, 0, 10px, rgba(0, 0, 0, .22));
 	&.active {
 		position: absolute;
 		top: -110px;
 		bottom: inherit;
+		background: @secondaryColor;
 		.inner {
-			//	bottom: 20px;
+			.NoShadow;
+			position: absolute;
+			background: @secondaryColor;
+			.NoRoundedCorners;
 		}
 	}
 	.inner {
-		position: absolute;
+		background: @primaryColor;
+		.Shadow(0, 3px, 7px, rgba(0, 0, 0, .5));
 		width: 100%;
-		padding: 0 20px;
+		padding: 7px 20px;
 		left: 0;
+		.RoundedCorners(6px);
 	}
 
 }
@@ -353,14 +363,14 @@ a {
 .closeHupFormTrigger {
 	display: none;
 	position: absolute;
-	top:0;
-	right:17px;
+	top: 5px;
+	right: 17px;
 }
 
 .sendHupTrigger {
 	text-align: center;
-	font-weight: bold;
-	font-size: 1.5em;
+	font-size: 1.3em;
+	text-transform: uppercase;
 }
 
 .hupFormWrapper {
@@ -456,4 +466,71 @@ input, textarea {
 	display: none;
 	font-size: 1.2em;
 	padding: 20px 15px 0;
+}
+
+.hupOverview {
+	margin-top: 20px;
+	font-family: @fontMittel;
+	padding: 0 10px 0 20px;
+}
+
+.hupItem {
+	position: relative;
+	padding: 15px 10px;
+	background: @colorHupItem;
+	margin-bottom: 10px;
+	font-weight: bold;
+	width: 90%;
+	font-size: 1.1em;
+	.header {
+		border-bottom: 1px solid @colorHupItemBorder;
+		color: @fourthColor;
+		padding-bottom: 10px;
+	}
+	.triangle {
+		.triangle(right, 12px, 8px, @fourthColor);
+		display: inline-block;
+		margin: 0 5px;
+	}
+	.participant {
+		&:before {
+			margin-right: 1px;
+			content: " ";
+			display: inline-block;
+			width: 35px;
+			height: 15px;
+			background: url("@{imgDir}/icons/bike-yellow.png") no-repeat;
+			background-size: contain;
+			vertical-align: middle;
+		}
+	}
+	.content {
+		padding-top: 10px;
+	}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: 10px;
+		left: -20px;
+		width: 0;
+		height: 0;
+		-moz-transform: scale(.9999);
+		border-top: 20px solid transparent;
+		border-bottom: 0 solid transparent;
+		border-right: 22px solid @colorHupItem;
+		.Rotate(-5deg);
+	}
+	&.participantHup {
+		margin-left: auto;
+		.header {
+			color: @primaryColor;
+		}
+		.participant {
+			&:before {
+				background: url("@{imgDir}/icons/bike-red.png") no-repeat;
+				background-size: contain;
+			}
+		}
+	}
 }

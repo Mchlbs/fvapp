@@ -49,20 +49,23 @@ function loadHupsNScores() //CallBack: onHupsNScoresLoaded
 }
 
 //Aangeroepen als callback van LoadHupsNScores() (zie backend)
-function onHupsNScoresLoaded(jsonData) {
+function onHupsNScoresLoaded(jsonData)
+{
 
 	jsonData = JSON.parse(jsonData);
 
 	var sHupHTML = "";
 
-	jQuery.each(jsonData.Hups, function(i, val) {
+	jQuery.each(jsonData.Hups, function (i, val)
+	{
 
 		sHupHTML += getHupHTML(val.Name, val.Message);
 	});
 
 	var sParticipantsHTML = "";
 
-	jQuery.each(jsonData.Participants, function(i, val) {
+	jQuery.each(jsonData.Participants, function (i, val)
+	{
 
 		sParticipantsHTML += '<div class="deelnemer infoBlock clear">';
 		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
@@ -88,14 +91,25 @@ function onHupsNScoresLoaded(jsonData) {
 	setScreenDimensions();
 }
 
-function getHupHTML(name, message) {
+function getHupHTML(name, message)
+{
 
 	var sHupHTML = "";
-
-	sHupHTML += '<div class="hupItem infoBlock">';
-	sHupHTML += '<div class="name header">' + name + '</div>';
-	sHupHTML += '<div class="content">' + message + '</div>';
-	sHupHTML += '</div>';
+	var participantHup = false;
+	if (!participantHup)
+	{
+		sHupHTML += '<div class="hupItem">';
+		sHupHTML += '<div class="header"><span class="sender">' + name + '</span><div class="triangle"></div><span class="participant">Rianne</span></div>';
+		sHupHTML += '<div class="content">' + message + '</div>';
+		sHupHTML += '</div>';
+	}
+	else
+	{
+		sHupHTML += '<div class="hupItem participantHup">';
+		sHupHTML += '<div class="header"><span class="sender">' + name + '</span></div>';
+		sHupHTML += '<div class="content">' + message + '</div>';
+		sHupHTML += '</div>';
+	}
 
 	return sHupHTML;
 }
@@ -127,9 +141,11 @@ function submitHup(e) //CallBack: onSubmitHup
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
 
-function onSubmitHup(success) {
+function onSubmitHup(success)
+{
 
-	if (success === true) {
+	if (success === true)
+	{
 
 		//loadHupsNScores();
 	}
@@ -249,7 +265,7 @@ $(document).ready(function ()
 	$('.sendHupTrigger').on('click', function ()
 	{
 		var sendHupWrapper = $('.sendHupWrapper');
-		if (! $(sendHupWrapper).hasClass('active'))
+		if (!$(sendHupWrapper).hasClass('active'))
 		{
 			openHupForm();
 		}
@@ -349,9 +365,10 @@ function openHupForm()
 
 	$(sendHupWrapper).width($(window).width());
 	$(sendHupWrapper).height($(window).height());
-	setTimeout(function(){
-	$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
-	},200);
+	setTimeout(function ()
+	{
+		$(sendHupWrapper).find('.textareaHolder').height($(window).height() - 160);
+	}, 200);
 
 
 	blockNavSwipe();
