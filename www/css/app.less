@@ -74,7 +74,7 @@ a {
 	position: relative;
 	overflow: hidden;
 	max-width: 100%;
-	padding-top: 109px;
+	padding-top: 129px;
 }
 
 //Screens
@@ -101,42 +101,43 @@ a {
 }
 
 #moneyHeader {
-	background: @primaryColor;
+	position: relative;
+	background: url("../img/headerbg.jpg") no-repeat top right;
+	background-size: cover;
+	height:115px;
 	color: #fff;
 	text-align: center;
-	font-weight: bold;
+	font-weight: 300;
 	padding: 1px 0;
+	.logo{
+		position: absolute;
+		top:0;
+		left:0;
+		width: 50%;
+	}
 }
 
 .moneyCount{
-	font-size: 2em;
+	font-size: 3em;
 	line-height: 0.9em;
 }
 
 .moneyDesc{
-	font-size: 0.9em;
+	margin-top: 35px;
+	font-size: 1.1em;
 	text-transform: uppercase;
 }
 
 #button-nieuws {
-	background: url("../img/icons/megaphone-outline.png") no-repeat center center;
-	&.active {
-		background: url("../img/icons/megaphone-filled.png") no-repeat center center;
-	}
+	background: url("../img/icons/megaphone.png") no-repeat center center;
 }
 
 #button-scores {
-	background: url("../img/icons/bike-outline.png") no-repeat center center;
-	&.active {
-		background: url("../img/icons/bike-filled.png") no-repeat center center;
-	}
+	background: url("../img/icons/t-shirt.png") no-repeat center center;
 }
 
 #button-hup {
-	background: url("../img/icons/cheer-outline.png") no-repeat center center;
-	&.active {
-		background: url("../img/icons/cheer-filled.png") no-repeat center center;
-	}
+	background: url("../img/icons/thumb.png") no-repeat center center;
 }
 
 .appHeader {
@@ -146,26 +147,29 @@ a {
 }
 
 .menu {
+	padding: 10px 0;
+	background-color: @fourthColor;
 	.menu-button {
 		position: relative;
 		float: left;
 		width: 33.333333%;
 		font-size: 1em;
-		background-color: #DCE1E1 !important;
 		background-size: 50px !important;
 		text-align: center;
-		height: 70px;
+		height: 60px;
 		.Transition(all, .3s, ease, 0s);
+		&:nth-child(2){
+			border-left: 1px solid #fff;
+			border-right: 1px solid #fff;
+		}
 		&.active {
-			-webkit-filter: invert(1);
-			filter: invert(1);
 			&:after {
 				position: absolute;
 				z-index: 100;
-				bottom: -8px;
+				bottom: -10px;
 				left: 50%;
 				margin-left: -10px;
-				.triangle(down, 20px, 8px, #DCE1E1);
+				.triangle(up, 20px, 8px, #fff);
 			}
 		}
 	}
@@ -210,6 +214,12 @@ a {
 	}
 	&.iconClose {
 		background: url("../img/icons/close.png") no-repeat;
+		background-size: contain;
+	}&.iconTshirt {
+		background: url("../img/icons/t-shirt.png") no-repeat;
+		background-size: contain;
+	}&.iconThumb {
+		background: url("../img/icons/thumb.png") no-repeat;
 		background-size: contain;
 	}
 }
