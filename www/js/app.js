@@ -28,7 +28,7 @@ function onNewsLoaded(jsonData)
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 
-	decoded = decoded.replace(/<*src *= *["\']/g, 'src="http://fietsenvoor.nl/' );
+	decoded = decoded.replace(/<*src *= *["\']/g, 'src="http://fietsenvoor.nl/');
 
 	//Nieuws laten zien
 	$('#nieuws .content').html(decoded);
@@ -61,7 +61,7 @@ function onHupsNScoresLoaded(jsonData)
 
 	jQuery.each(jsonData.Hups, function (i, val)
 	{
-		sHupHTML += getHupHTML(val.Name,val.Participant, val.Message);
+		sHupHTML += getHupHTML(val.Name, val.Participant, val.Message);
 	});
 
 	var sParticipantsHTML = "";
@@ -70,7 +70,7 @@ function onHupsNScoresLoaded(jsonData)
 	jQuery.each(jsonData.Participants, function (i, val)
 	{
 		sFotoUrl = "img/deelnemerDummy.png";
-		if(val.FotoUrl != null)
+		if (val.FotoUrl != null)
 		{
 			sFotoUrl = val.FotoUrl;
 		}
@@ -100,7 +100,7 @@ function onHupsNScoresLoaded(jsonData)
 	setScreenDimensions();
 }
 
-function getHupHTML(name,sParticipant, message)
+function getHupHTML(name, sParticipant, message)
 {
 	var sHupHTML = "";
 	var participantHup = false;
@@ -128,6 +128,28 @@ function submitHup(e) //CallBack: onSubmitHup
 	var sParticipant = $('.hupFormWrapper #participant').val();
 	var sMessage = $('.hupFormWrapper #hupMessage').val();
 
+	// check
+	$('.hupFormWrapper .feedback').remove();
+	var everythingIsOk = true;
+	if (!sName)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper #name').after('<div class="feedback">Vul je naam in</div>');
+	}
+	if (!sParticipant)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper #participant').after('<div class="feedback">Kies een deelnemer</div>');
+	}
+	if (!sMessage)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper .textareaHolder').after('<div class="feedback">Je aanmoediging mag niet leeg zijn</div>');
+	}
+
+	if (!everythingIsOk) return;
+
+
 	var sExtraGetString = 'sndr=' + sName + '&part=' + sParticipant + '&msg=' + sMessage;
 
 	url = BASE_URL + '/insertHup?' + sExtraGetString;
@@ -139,7 +161,7 @@ function submitHup(e) //CallBack: onSubmitHup
 	head.appendChild(script);
 	head.removeChild(script);
 
-	var sNewHupHTML = getHupHTML(sName,sParticipant, sMessage);
+	var sNewHupHTML = getHupHTML(sName, sParticipant, sMessage);
 
 	$('.hupOverview').prepend(sNewHupHTML);
 
@@ -150,9 +172,11 @@ function submitHup(e) //CallBack: onSubmitHup
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
 }
 
-function onSubmitHup(success) {
+function onSubmitHup(success)
+{
 
-	if (success === true) {
+	if (success === true)
+	{
 
 		//loadHupsNScores();
 	}
@@ -402,6 +426,7 @@ function closeHupForm()
 	$(sendHupWrapper).closest('.screen').addClass('active');
 	$(hupFormWrapper).hide();
 	$(sendHupWrapper).height('50px');
+	$('.hupFormWrapper .feedback').remove();
 	unBlockNavSwipe();
 }
 
