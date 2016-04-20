@@ -589,10 +589,17 @@ input, textarea, select {
 		.header {
 			color: @primaryColor;
 		}
-		.participant {
+		.sender {
 			&:before {
+				margin-right: 1px;
+				content: " ";
+				display: inline-block;
+				width: 35px;
+				height: 15px;
 				background: url("@{imgDir}/icons/bike-red.png") no-repeat;
 				background-size: contain;
+				vertical-align: middle;
+
 			}
 		}
 	}
