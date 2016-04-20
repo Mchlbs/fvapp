@@ -4,6 +4,32 @@ var BASE_URL = "http://fietsenvoor.nl/toppen";
 var SECURITY_KEY = "SDFEdfs";
 var EDITION_ID = 5;
 
+/**************************************************************************/
+/*********** ALGEMEEN *******************************************************/
+/**************************************************************************/
+
+
+/** Doe een request naar de Server **/
+function request(url) {
+
+	//Timestamp meegeven i.v.m. cache-issues
+	var time = Date.now();
+
+	var prefix = url.indexOf("?") > 0 ? "&" : "?";
+
+	url += prefix + 'tm=' + time;
+
+	//Let's go
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
+
+	//De Callback wordt geregeld via de Back-end
+}
+
 function onPause() {}
 
 function onResume() {}
@@ -58,14 +84,7 @@ function doJSONP(sCallBack, sExtraGetString)
 	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
 	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
 
-//	console.log(url);
-
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
+	request(url);
 }
 
 /**************************************************************************/
@@ -100,12 +119,7 @@ function loadHups()
 	//2. JSON van de Server inladen
 	url = 'http://fietsenvoor.nl/themes/fietsenvoor/hups.json';
 
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
+	request(url);
 }
 
 /**
@@ -185,12 +199,7 @@ function submitHup(e) //CallBack: onSubmitHup
 
 	url = BASE_URL + '/insertHup?' + sExtraGetString;
 
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
+	request(url);
 
 	//Piep de nieuwe Hup er even tussen in het kader van de snappy User Experience
 	var sNewHupHTML = getHupHTML(sName, sParticipant, sMessage);
