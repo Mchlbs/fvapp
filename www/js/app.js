@@ -19,9 +19,6 @@ function loadNews() {
 
 function onNewsLoaded(jsonData)
 {
-	//Oude interval clearen
-	clearInterval(newsInterval);
-
 	//HTML decoderen
 	var decoded = $("<div/>").html(jsonData.HTML).text();
 
@@ -200,13 +197,14 @@ function submitHup(e) //CallBack: onSubmitHup
 	var sHupHTML = localStorage.getItem('Hups');
 	sHupHTML = sNewHupHTML + sHupHTML;
 	localStorage.setItem('Hups', sHupHTML);
-	loadHupsFromLocalStorage();
 
 	closeHupForm();
 	$('.hupFormWrapper #hupMessage').val('');
 
 	$('.screen.active').scrollTop(0);
 	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
+
+	loadHupsFromLocalStorage();
 }
 
 //Deprecated?
