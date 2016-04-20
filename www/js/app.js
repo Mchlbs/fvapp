@@ -305,6 +305,7 @@ function onParticipantsLoaded(jsonData)
 		sParticipantsHTML += '<div class="details content clear">';
 		sParticipantsHTML += '<div class="detail doel">' + val.GehaaldeToppen + '/' + val.Toppen + '</div>';
 		sParticipantsHTML += '<div class="detail bedrag">&euro;' + val.Bedrag + '</div>';
+		sParticipantsHTML += '<a href="#" class="detail sponsor">Sponsor mij!</a>';
 		sParticipantsHTML += '</div></div></div>';
 	});
 
