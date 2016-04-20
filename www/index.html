@@ -138,23 +138,16 @@
 		$(document).ready(function ()
 		{
 
-			//SocketID resetten
-			//localStorage.setItem('SocketID', null);
-
-			//pokeServer();
-
-			//Verbinding maken met onze server (via Pusher.com)
+		 //Verbinding maken met onze server (via Pusher.com)
 			var pusher = new Pusher('d11fb45626c063f59deb', {
 				encrypted: true
 			});
 
 			var channel = pusher.subscribe('test_channel');
 
-//			loadScores();
 			loadNews();
-			//	loadHups();
-
-			loadHupsNScores();
+  		loadHups();
+			loadParticipants();
 
 			/*
 			 pusher.connection.bind('connected', function() {
@@ -177,17 +170,23 @@
 
 				//alert(data.Type);
 
-				if (data.Type === 'updateHupsNScores')
+				if (data.Type === 'updateHups')
 				{
-
-					//alert("bos");
-
-					loadHupsNScores();
+					loadHups();
 				}
-				//processNews(data.News.Messages);
+
+				if (data.Type === 'updateParticipants')
+				{
+					loadParticipants();
+				}
+
+				if (data.Type === 'updateNews')
+				{
+					loadNews();
+				}
 			});
 
-			//document.addEventListener("resume", onResume, false);
+			document.addEventListener("resume", onResume, false);
 			//document.addEventListener("pause", onPause, false);
 
 		});

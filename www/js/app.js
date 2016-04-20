@@ -4,19 +4,16 @@ var BASE_URL = "http://fietsenvoor.nl/toppen";
 var SECURITY_KEY = "SDFEdfs";
 var EDITION_ID = 5;
 
-var newsInterval;
-var scoreInterval;
+function onPause() {}
 
-function onPause()
-{
-}
+function onResume() {}
 
-function onResume()
-{
-}
+/**************************************************************************/
+/*********** NIEUWS *******************************************************/
+/**************************************************************************/
 
-function loadNews()
-{
+function loadNews() {
+
 	doJSONP('onNewsLoaded', '');
 }
 
@@ -36,150 +33,6 @@ function onNewsLoaded(jsonData)
 
 	//TimeStamp opslaan in de localstorage
 	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
-}
-
-function loadHupsNScores() //CallBack: onHupsNScoresLoaded
-{
-	url = 'http://fietsenvoor.nl/themes/fietsenvoor/hupsnscores.json';
-
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
-}
-
-//Aangeroepen als callback van LoadHupsNScores() (zie backend)
-function onHupsNScoresLoaded(jsonData)
-{
-	localStorage.setItem('jsonData', jsonData);
-	jsonData = JSON.parse(jsonData);
-
-
-	var sHupHTML = "";
-
-	jQuery.each(jsonData.Hups, function (i, val)
-	{
-		sHupHTML += getHupHTML(val.Name, val.Participant, val.Message);
-	});
-
-	var sParticipantsHTML = "";
-	var sFotoUrl;
-
-	jQuery.each(jsonData.Participants, function (i, val)
-	{
-		sFotoUrl = "img/deelnemerDummy.png";
-		if (val.FotoUrl != null)
-		{
-			sFotoUrl = val.FotoUrl;
-		}
-
-		sParticipantsHTML += '<div class="deelnemer clear">';
-		sParticipantsHTML += '<div class="photoHolder"><img src="' + sFotoUrl + '"></div>';
-		sParticipantsHTML += '<div class="contentHolder">';
-		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
-		sParticipantsHTML += '<div class="details content clear">';
-		sParticipantsHTML += '<div class="detail doel">' + val.GehaaldeToppen + '/' + val.Toppen + '</div>';
-		sParticipantsHTML += '<div class="detail bedrag">&euro;' + val.Bedrag + '</div>';
-		sParticipantsHTML += '</div></div></div>';
-	});
-
-	/** TODO: Datavalidatie **/
-
-	//Hupjes laten zien
-	var hupOverview = $('.hupOverview');
-	$(hupOverview).html(sHupHTML);
-
-	//Deelnemers/Scores laten zien
-	$('.deelnemerOverzicht').html(sParticipantsHTML);
-
-	//Totaalbedrag laten zien
-	$('#moneyHeader .value').html(jsonData.TotaalBedrag);
-
-	setScreenDimensions();
-}
-
-function getHupHTML(name, sParticipant, message)
-{
-	var sHupHTML = "";
-	var participantHup = false;
-	if (!participantHup)
-	{
-		sHupHTML += '<div class="hupItem">';
-		sHupHTML += '<div class="header"><span class="sender">' + name + '</span><div class="triangle"></div><span class="participant">' + sParticipant + '</span></div>';
-		sHupHTML += '<div class="content">' + message + '</div>';
-		sHupHTML += '</div>';
-	}
-	else
-	{
-		sHupHTML += '<div class="hupItem participantHup">';
-		sHupHTML += '<div class="header"><span class="sender">' + name + '</span></div>';
-		sHupHTML += '<div class="content">' + message + '</div>';
-		sHupHTML += '</div>';
-	}
-	return sHupHTML;
-}
-
-function submitHup(e) //CallBack: onSubmitHup
-{
-	e.preventDefault();
-	var sName = $('.hupFormWrapper #name').val();
-	var sParticipant = $('.hupFormWrapper #participant').val();
-	var sMessage = $('.hupFormWrapper #hupMessage').val();
-
-	// check
-	$('.hupFormWrapper .feedback').remove();
-	var everythingIsOk = true;
-	if (!sName)
-	{
-		everythingIsOk = false;
-		$('.hupFormWrapper #name').after('<div class="feedback">Vul je naam in</div>');
-	}
-	if (!sParticipant)
-	{
-		everythingIsOk = false;
-		$('.hupFormWrapper #participant').after('<div class="feedback">Kies een deelnemer</div>');
-	}
-	if (!sMessage)
-	{
-		everythingIsOk = false;
-		$('.hupFormWrapper .textareaHolder').after('<div class="feedback">Je aanmoediging mag niet leeg zijn</div>');
-	}
-
-	if (!everythingIsOk) return;
-
-
-	var sExtraGetString = 'sndr=' + sName + '&part=' + sParticipant + '&msg=' + sMessage;
-
-	url = BASE_URL + '/insertHup?' + sExtraGetString;
-
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
-
-	var sNewHupHTML = getHupHTML(sName, sParticipant, sMessage);
-
-	$('.hupOverview').prepend(sNewHupHTML);
-
-	closeHupForm();
-	$('.hupFormWrapper #hupMessage').val('');
-
-	$('.screen.active').scrollTop(0);
-	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
-}
-
-function onSubmitHup(success)
-{
-
-	if (success === true)
-	{
-
-		//loadHupsNScores();
-	}
 }
 
 //Doe een JSONP-request
@@ -218,10 +71,248 @@ function doJSONP(sCallBack, sExtraGetString)
 	head.removeChild(script);
 }
 
-/********************************************************************************
- ******************************* LAYOUT / UI *************************************
- ********************************************************************************/
+/**************************************************************************/
+/*********** HUPJES *******************************************************/
+/**************************************************************************/
 
+/**
+ * Laad de in de LocalStorage opgeslagen Hupjes
+ */
+function loadHupsFromLocalStorage() {
+
+	if (localStorage.getItem('Hups') !== 'undefined') {
+
+		var sHTML = localStorage.getItem('Hups');
+
+		//Hupjes laten zien
+		var hupOverview = $('.hupOverview');
+		$(hupOverview).html(sHTML);
+	}
+
+	setScreenDimensions();
+}
+
+/**
+ * Laad de Hups uit de JSON -> CallBack: onHupsLoaded()
+ */
+function loadHups()
+{
+	//1. Kijk in de LocalStorage
+	loadHupsFromLocalStorage();
+
+	//2. JSON van de Server inladen
+	url = 'http://fietsenvoor.nl/themes/fietsenvoor/hups.json';
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
+}
+
+/**
+ * Aangeroepen als callback van LoadHups() (zie backend JSON)
+ */
+function onHupsLoaded(jsonData)
+{
+	localStorage.setItem('jsonData', jsonData);
+
+	jsonData = JSON.parse(jsonData);
+
+	var sHupHTML = "";
+
+	jQuery.each(jsonData.Hups, function (i, val)
+	{
+		sHupHTML += getHupHTML(val.Name, val.Participant, val.Message, val.Source);
+	});
+
+	/** TODO: Datavalidatie **/
+
+	localStorage.setItem("Hups", sHupHTML);
+	loadHupsFromLocalStorage();
+}
+
+function getHupHTML(name, sParticipant, message, source)
+{
+	var sHupHTML = "";
+	if (source !== 'Server')
+	{
+		//Hupjes vanuit de App
+		sHupHTML += '<div class="hupItem">';
+		sHupHTML += '<div class="header"><span class="sender">' + name + '</span><div class="triangle"></div><span class="participant">' + sParticipant + '</span></div>';
+		sHupHTML += '<div class="content">' + message + '</div>';
+		sHupHTML += '</div>';
+	}
+	else
+	{
+		//Hupjes van de Redactie
+		sHupHTML += '<div class="hupItem participantHup">';
+		sHupHTML += '<div class="header"><span class="sender">' + name + '</span></div>';
+		sHupHTML += '<div class="content">' + message + '</div>';
+		sHupHTML += '</div>';
+	}
+
+	return sHupHTML;
+}
+
+function submitHup(e) //CallBack: onSubmitHup
+{
+	e.preventDefault();
+	var sName = $('.hupFormWrapper #name').val();
+	var sParticipant = $('.hupFormWrapper #participant').val();
+	var sMessage = $('.hupFormWrapper #hupMessage').val();
+
+	// check
+	$('.hupFormWrapper .feedback').remove();
+	var everythingIsOk = true;
+	if (!sName)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper #name').after('<div class="feedback">Vul je naam in</div>');
+	}
+	if (!sParticipant)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper #participant').after('<div class="feedback">Kies een deelnemer</div>');
+	}
+	if (!sMessage)
+	{
+		everythingIsOk = false;
+		$('.hupFormWrapper .textareaHolder').after('<div class="feedback">Je aanmoediging mag niet leeg zijn</div>');
+	}
+
+	if (!everythingIsOk) return;
+
+	var sExtraGetString = 'sndr=' + sName + '&part=' + sParticipant + '&msg=' + sMessage;
+
+	url = BASE_URL + '/insertHup?' + sExtraGetString;
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
+
+	//Piep de nieuwe Hup er even tussen in het kader van de snappy User Experience
+	var sNewHupHTML = getHupHTML(sName, sParticipant, sMessage);
+	var sHupHTML = localStorage.getItem('Hups');
+	sHupHTML = sNewHupHTML + sHupHTML;
+	localStorage.setItem('Hups', sHupHTML);
+	loadHupsFromLocalStorage();
+
+	closeHupForm();
+	$('.hupFormWrapper #hupMessage').val('');
+
+	$('.screen.active').scrollTop(0);
+	$('.hupOverview').find('.hupItem:first-child').fadeOut(0).fadeIn(3000);
+}
+
+//Deprecated?
+function onSubmitHup(success)
+{
+
+	if (success === true)
+	{
+
+		//alert("HALLO!");
+	}
+}
+
+/**************************************************************************/
+/*********** PARTICIPANTS/SCORES ******************************************/
+/**************************************************************************/
+
+/**
+ * Laad de in de LocalStorage opgeslagen Participants (en TotaalBedrag)
+ */
+function loadParticipantsFromLocalStorage() {
+
+	/** Participants **/
+
+	if (localStorage.getItem('Participants') !== null) {
+
+		var sHTML = localStorage.getItem('Participants');
+
+		//Deelnemers/Scores laten zien
+		$('.deelnemerOverzicht').html(sHTML);
+	}
+
+	/** Totaalbedrag **/
+
+	if (localStorage.getItem('TotaalBedrag') !== null) {
+
+		var sTotaalBedrag = localStorage.getItem('TotaalBedrag');
+
+		//Totaalbedrag laten zien
+		$('#moneyHeader .value').html(sTotaalBedrag);
+	}
+
+	setScreenDimensions();
+}
+
+/**
+ * Laad de Participants uit de JSON op de Server -> CallBack: onParticipantsLoaded()
+ */
+function loadParticipants()
+{
+	//1. Kijk in de LocalStorage
+	loadParticipantsFromLocalStorage();
+
+	//2. JSON van de Server inladen
+	url = 'http://fietsenvoor.nl/themes/fietsenvoor/participants.json';
+
+	var head = document.head;
+	var script = document.createElement("script");
+
+	script.setAttribute("src", url);
+	head.appendChild(script);
+	head.removeChild(script);
+}
+
+/**
+ * Aangeroepen als callback van LoadHupsNScores() (zie backend)
+ */
+function onParticipantsLoaded(jsonData)
+{
+	localStorage.setItem('jsonData', jsonData);
+
+	jsonData = JSON.parse(jsonData);
+
+	var sParticipantsHTML = "";
+	var sFotoUrl;
+
+	jQuery.each(jsonData.Participants, function (i, val)
+	{
+		sFotoUrl = "img/deelnemerDummy.png";
+		if (val.FotoUrl != null)
+		{
+			sFotoUrl = val.FotoUrl;
+		}
+
+		sParticipantsHTML += '<div class="deelnemer clear">';
+		sParticipantsHTML += '<div class="photoHolder"><img src="' + sFotoUrl + '"></div>';
+		sParticipantsHTML += '<div class="contentHolder">';
+		sParticipantsHTML += '<div class="naam header">' + val.Name + '</div>';
+		sParticipantsHTML += '<div class="details content clear">';
+		sParticipantsHTML += '<div class="detail doel">' + val.GehaaldeToppen + '/' + val.Toppen + '</div>';
+		sParticipantsHTML += '<div class="detail bedrag">&euro;' + val.Bedrag + '</div>';
+		sParticipantsHTML += '</div></div></div>';
+	});
+
+	/** TODO: Datavalidatie **/
+
+	localStorage.setItem("Participants", sParticipantsHTML);
+
+	localStorage.setItem("TotaalBedrag", jsonData.TotaalBedrag);
+
+	loadParticipantsFromLocalStorage();
+}
+
+/********************************************************************************
+******************************* LAYOUT / UI *************************************
+********************************************************************************/
 
 $(document).ready(function ()
 {
@@ -476,7 +567,3 @@ function getParticipantsDropdownOptions()
 		}
 	}
 }
-
-/********************************************************************************
- ******************************* RSS READER *************************************
- ********************************************************************************/
