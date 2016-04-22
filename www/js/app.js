@@ -1,13 +1,12 @@
 //var jsonData = '{"Meta":{"Tijd":1454517390,"TotaalBedrag":"374,00"},"Deelnemers":[{"naam":"Rianne Engels","toppen":"3","gehaaldetoppen":"0","bedrag":"0,00"},{"naam":"Hans Blaauwendraat","toppen":"0","gehaaldetoppen":"0","bedrag":"0,00"},{"naam":"Tim Sterel","toppen":"3","gehaaldetoppen":"0","bedrag":"374,00"},{"naam":"Aletta Boer","toppen":"0","gehaaldetoppen":"0","bedrag":"0,00"}]}';
 
 var BASE_URL = "http://fietsenvoor.nl/toppen";
-var SECURITY_KEY = "SDFEdfs";
+var SECURITY_KEY = "SDFE1dfs";
 var EDITION_ID = 5;
 
 /**************************************************************************/
-/*********** ALGEMEEN *******************************************************/
+/*********** ALGEMEEN *****************************************************/
 /**************************************************************************/
-
 
 /** Doe een request naar de Server **/
 function request(url) {
@@ -17,7 +16,9 @@ function request(url) {
 
 	var prefix = url.indexOf("?") > 0 ? "&" : "?";
 
-	url += prefix + 'tm=' + time;
+	url += prefix + 'ts=' + time + '&ed=' + EDITION_ID + '&key=' + SECURITY_KEY;
+
+	//alert(url);
 
 	//Let's go
 	var head = document.head;
@@ -64,13 +65,10 @@ function doJSONP(sCallBack, sExtraGetString)
 
 	if (sExtraGetString.length > 5)
 	{
-
 		sExtraGetString = '&' + sExtraGetString;
-
 	}
 	else
 	{
-
 		sExtraGetString = '';
 	}
 
