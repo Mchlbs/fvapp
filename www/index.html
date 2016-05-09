@@ -138,12 +138,13 @@
 		$(document).ready(function ()
 		{
 
+			connectPusher();
 		 //Verbinding maken met onze server (via Pusher.com)
-			var pusher = new Pusher('d11fb45626c063f59deb', {
-				encrypted: true
-			});
-
-			var channel = pusher.subscribe('test_channel');
+//			var pusher = new Pusher('d11fb45626c063f59deb', {
+//				encrypted: true
+//			});
+//
+//			var channel = pusher.subscribe('test_channel');
 
 			loadNews();
   		loadHups();
@@ -162,32 +163,32 @@
 			 */
 
 			//Luisteren naar updates vanaf de Server
-			channel.bind('my_event', function (data)
-			{
-
-				//Data is altijd in de vorm van een JSON
-				data = JSON.parse(data);
-
-				//alert(data.Type);
-
-				if (data.Type === 'updateHups')
-				{
-					loadHups();
-				}
-
-				if (data.Type === 'updateParticipants')
-				{
-					loadParticipants();
-				}
-
-				if (data.Type === 'updateNews')
-				{
-					loadNews();
-				}
-			});
+//			channel.bind('my_event', function (data)
+//			{
+//
+//				//Data is altijd in de vorm van een JSON
+//				data = JSON.parse(data);
+//
+//				//alert(data.Type);
+//
+//				if (data.Type === 'updateHups')
+//				{
+//					loadHups();
+//				}
+//
+//				if (data.Type === 'updateParticipants')
+//				{
+//					loadParticipants();
+//				}
+//
+//				if (data.Type === 'updateNews')
+//				{
+//					loadNews();
+//				}
+//			});
 
 			document.addEventListener("resume", onResume, false);
-			//document.addEventListener("pause", onPause, false);
+			document.addEventListener("pause", onPause, false);
 
 		});
 

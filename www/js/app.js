@@ -31,58 +31,132 @@ function request(url) {
 	//De Callback wordt geregeld via de Back-end
 }
 
-function onPause() {}
+function onPause()
+{
+	console.log("onPause");
 
-function onResume() {}
+	disconnectPusher();
+}
+
+function onResume()
+{
+	console.log("onResume");
+
+	connectPusher();
+
+	loadNews();
+	loadHups();
+	loadParticipants();
+}
+
+/**************************************************************************/
+/*********** PUSHER *******************************************************/
+/**************************************************************************/
+
+var pusher;
+
+function connectPusher()
+{
+	//Verbinding maken met onze server (via Pusher.com)
+	pusher = new Pusher('d11fb45626c063f59deb', {
+		encrypted: true
+	});
+
+	var channel = pusher.subscribe('test_channel');
+
+	channel.bind('my_event', function (data)
+	{
+		//Data is altijd in de vorm van een JSON
+		data = JSON.parse(data);
+
+		//alert(data.Type);
+
+		if (data.Type === 'updateHups')
+		{
+			loadHups();
+		}
+
+		if (data.Type === 'updateParticipants')
+		{
+			loadParticipants();
+		}
+
+		if (data.Type === 'updateNews')
+		{
+			loadNews();
+		}
+	});
+}
+
+function disconnectPusher()
+{
+	pusher.disconnect();
+}
 
 /**************************************************************************/
 /*********** NIEUWS *******************************************************/
 /**************************************************************************/
 
-function loadNews() {
+/**
+ * Laad in de LocalStorage opgeslagen Nieuwsberichten
+ */
+function loadNewsFromLocalStorage()
+{
+	if (localStorage.getItem('News') !== 'undefined')
+	{
+		var sHTML = localStorage.getItem('News');
 
-	doJSONP('onNewsLoaded', '');
+		//Nieuws laten zien
+		$('#nieuws .content').html(sHTML);
+		setScreenDimensions();
+	}
+}
+
+/**
+ * Laad News uit de JSON -> CallBack: onNewsLoaded()
+ */
+function loadNews()
+{
+	//1. Kijk in de LocalStorage
+	loadNewsFromLocalStorage();
+
+	//2. JSON van de Server inladen (als nodig)
+	checkNewsTS(); //--> onCheckNewsTS()
 }
 
 function onNewsLoaded(jsonData)
 {
 	//HTML decoderen
-	var decoded = $("<div/>").html(jsonData.HTML).text();
+	var decoded = $("<div/>").html(jsonData.News).text();
 
 	decoded = decoded.replace(/<*src *= *["\']/g, 'src="http://fietsenvoor.nl/');
 
-	//Nieuws laten zien
-	$('#nieuws .content').html(decoded);
-	setScreenDimensions();
-
-	//TimeStamp opslaan in de localstorage
-	localStorage.setItem("lastNewsUpdate", jsonData.Meta['Tijd']);
+	localStorage.setItem("News", decoded);
+	loadNewsFromLocalStorage();
 }
 
-//Doe een JSONP-request
-function doJSONP(sCallBack, sExtraGetString)
+/** TimeStamp laden van laatste Nieuws-update (callback: onCheckNewsTS()) **/
+function checkNewsTS()
 {
-
-	if (sExtraGetString.length > 5)
-	{
-		sExtraGetString = '&' + sExtraGetString;
-	}
-	else
-	{
-		sExtraGetString = '';
-	}
-
-//	var SessionID = localStorage.getItem('SocketID');
-//
-//	if (SessionID.length > 3) {
-//
-//		sExtraGetString += '&sid=' + SessionID;
-//	}
-
-	//var url = BASE_URL + '?key=' + SECURITY_KEY + '&callback=' + sCallBack + '&' + sExtraGetString;
-	var url = BASE_URL + '?ed=' + EDITION_ID + '&cb=' + sCallBack + sExtraGetString;
+	url = 'http://fietsenvoor.nl/themes/fietsenvoor/newsTS.json';
 
 	request(url);
+}
+
+/** TimeStamp van laatste Nieuws-update vergelijken met de TimeStamp in de Local Storage */
+function onCheckNewsTS(timestamp)
+{
+	var localTS = localStorage.getItem("NewsTS");
+
+	if (timestamp > localTS)
+	{
+		//Nieuws laden
+		localStorage.setItem("NewsTS", timestamp);
+
+		url = 'http://fietsenvoor.nl/themes/fietsenvoor/news.json';
+
+		request(url); //--> onNewsLoaded()
+	}
 }
 
 /**************************************************************************/
@@ -242,6 +316,8 @@ function loadParticipantsFromLocalStorage() {
 
 		//Deelnemers/Scores laten zien
 		$('.deelnemerOverzicht').html(sHTML);
+
+		$('.hupFormWrapper #participant').append(getParticipantsDropdownOptions());
 	}
 
 	/** Totaalbedrag **/
@@ -412,7 +488,7 @@ $(document).ready(function ()
 		closeHupForm();
 	});
 
-	$('.hupFormWrapper #participant').append(getParticipantsDropdownOptions());
+	//$('.hupFormWrapper #participant').append(getParticipantsDropdownOptions());
 
 });
 
