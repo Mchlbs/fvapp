@@ -328,7 +328,7 @@ $(document).ready(function ()
 	{
 		$('.splashScreen').addClass('bounceOut');
 		$('body').removeClass('navSwipeBlocked');
-	}, 1300);
+	}, 2000);
 
 	$('.sendHupWrapper').stop().show().animate({'margin-bottom': 0});
 
@@ -362,6 +362,7 @@ $(document).ready(function ()
 	{
 		$('.deelnemerOverzichtWrapper').addClass('active');
 		$('.deelnemerOverzicht').css({"height": $(window).height() - 70});
+		$(window).scrollTop(-999);
 		$('.exitFilterModus').removeClass('hidden');
 		blockNavSwipe();
 	}).on('focusout', function ()
@@ -497,10 +498,11 @@ function openHupForm()
 	var closeHupFormTrigger = $('.closeHupFormTrigger');
 	$(sendHupWrapper).addClass('active');
 	$(sendHupWrapper).closest('.screen').removeClass('active');
+	$(window).scrollTop(-999);
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
 	$(closeHupFormTrigger).fadeIn();
 
-	$(sendHupWrapper).width($(window).width());
+	//$(sendHupWrapper).width($(window).width());
 	$(sendHupWrapper).height($(window).height());
 	setTimeout(function ()
 	{
