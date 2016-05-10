@@ -33,14 +33,14 @@ function request(url) {
 
 function onPause()
 {
-	console.log("onPause");
+	//console.log("onPause");
 
 	disconnectPusher();
 }
 
 function onResume()
 {
-	console.log("onResume");
+	//console.log("onResume");
 
 	connectPusher();
 
@@ -68,8 +68,6 @@ function connectPusher()
 	{
 		//Data is altijd in de vorm van een JSON
 		data = JSON.parse(data);
-
-		//alert(data.Type);
 
 		if (data.Type === 'updateHups')
 		{
@@ -344,19 +342,21 @@ function loadParticipants()
 	//2. JSON van de Server inladen
 	url = 'http://fietsenvoor.nl/themes/fietsenvoor/participants.json';
 
-	var head = document.head;
-	var script = document.createElement("script");
-
-	script.setAttribute("src", url);
-	head.appendChild(script);
-	head.removeChild(script);
+	request(url);
+//	var head = document.head;
+//	var script = document.createElement("script");
+//
+//	script.setAttribute("src", url);
+//	head.appendChild(script);
+//	head.removeChild(script);
 }
 
 /**
- * Aangeroepen als callback van LoadHupsNScores() (zie backend)
+ * Aangeroepen als callback van loadParticipants()(zie backend)
  */
 function onParticipantsLoaded(jsonData)
 {
+	//Dit is voor de dropdown met Deelnemers
 	localStorage.setItem('jsonData', jsonData);
 
 	jsonData = JSON.parse(jsonData);
