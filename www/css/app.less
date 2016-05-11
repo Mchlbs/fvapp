@@ -1,0 +1,628 @@
+@import "variables.less";
+
+* {
+	box-sizing: border-box;
+}
+
+.PlaceholderColor(@grey2, 1); /* opacity: 0.5 is browser default */
+
+.splashScreen {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	left: -10%;
+	right: 0;
+	padding-left: 10%;
+	background: url("@{imgDir}/splashscreen.jpg") no-repeat bottom right;
+	background-size: cover;
+	z-index: 500;
+	.splashLogo {
+		max-width: 70%;
+		margin-top: 50px;
+		max-height: 40%;
+
+	}
+	.credits {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.4);
+		text-align: center;
+		color: #fff;
+		border: none;
+		padding: 10px 30px 10px 10%;
+		font-weight: normal;
+		text-transform: none;
+		line-height: 20px;
+		img {
+			height: 20px;
+			vertical-align: middle;
+			margin-right: 10px;
+		}
+	}
+}
+
+.clear:after {
+	display: table;
+	content: " ";
+	clear: both;
+}
+
+body {
+	font-family: @fontStack;
+	font-size: @fontSize;
+	color: @fontColor;
+	margin: 0;
+	background: @primaryBackground;
+	&.navSwipeBlocked {
+		overflow: hidden;
+	}
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-rendering: auto;
+	font-family: @fontMittel;
+}
+
+h1, h2, h3, h4 {
+	font-weight: bold;
+	text-align: left;
+	line-height: 1.2em;
+}
+
+h1, h2 {
+	margin-bottom: 5px;
+}
+
+h3, h4 {
+	margin-bottom: 28px;
+}
+
+h1 {
+	font-size: 1.6em;
+	text-transform: uppercase;
+	border-left: 3px solid @primaryColor;
+	padding-left: 10px;
+}
+
+h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+	color: @secondaryColor;
+	text-transform: uppercase;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+p {
+	margin: 10px 0;
+	line-height: @lineHeight;
+}
+
+a {
+	color: @primaryColor;
+}
+
+.hidden {
+	display: none;
+}
+
+.mainContent {
+	position: relative;
+	overflow: hidden;
+	max-width: 100%;
+	padding-top: 160px;
+}
+
+//Screens
+.screenWrapper {
+	position: relative;
+	width: 9999px;
+}
+
+.screen {
+	float: left;
+	position: relative;
+	padding: 0 15px;
+	width: 320px;
+	padding-bottom: 80px;
+	display: none;
+	&.active {
+		overflow-y: auto;
+	}
+	&#scores {
+		padding-top: 20px;
+	}
+}
+
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+#moneyHeader {
+	position: relative;
+	background: url("../img/headerbg.jpg") no-repeat top right;
+	background-size: cover;
+	color: #fff;
+	text-align: center;
+	font-weight: 300;
+	padding: 10px 0;
+	font-family: @fontMittel;
+	.logo {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: auto;
+		max-height: 35px;
+		max-width: 50%;
+	}
+}
+
+.moneyCount {
+	font-size: 3em;
+	line-height: 0.9em;
+}
+
+.moneyDesc {
+	font-size: 1.1em;
+	text-transform: uppercase;
+}
+
+#button-nieuws {
+	background: url("../img/icons/megaphone.png") no-repeat top center;
+}
+
+#button-scores {
+	background: url("../img/icons/t-shirt.png") no-repeat top center;
+}
+
+#button-hup {
+	background: url("../img/icons/thumb.png") no-repeat top center;
+}
+
+.appHeader {
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}
+
+.menu {
+	padding: 10px 0;
+	background-color: @fourthColor;
+	.menu-button {
+		position: relative;
+		float: left;
+		width: 33.333333%;
+		font-size: 1em;
+		background-size: 30px !important;
+		text-align: center;
+		height: 60px;
+		.Transition(all, .3s, ease, 0s);
+		&:nth-child(2) {
+			border-left: 1px solid #fff;
+			border-right: 1px solid #fff;
+		}
+		&.active {
+			&:after {
+				position: absolute;
+				z-index: 100;
+				bottom: -10px;
+				left: 50%;
+				margin-left: -10px;
+				.triangle(up, 20px, 8px, @primaryBackground);
+			}
+		}
+		span {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			text-align: center;
+			width: 100%;
+			font-family: @fontMittel;
+			text-transform: uppercase;
+			color: #fff;
+		}
+	}
+}
+
+.icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto;
+	vertical-align: bottom;
+	&.iconSmall {
+		width: 24px;
+		height: 24px;
+	}
+	&.iconInvert {
+		-webkit-filter: invert(1);
+		filter: invert(1);
+	}
+	&.iconNews {
+		background: url("../img/icons/news.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconBike {
+		background: url("../img/icons/bike.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMegaphone {
+		background: url("../img/icons/megaphone.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconGoal {
+		background: url("../img/icons/goal.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMountain {
+		background: url("../img/icons/mountain.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconCoin {
+		background: url("../img/icons/coins.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconClose {
+		background: url("../img/icons/close.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconTshirt {
+		background: url("../img/icons/t-shirt.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconThumb {
+		background: url("../img/icons/thumb.png") no-repeat;
+		background-size: contain;
+	}
+}
+
+#nieuws {
+	.blogEntry {
+		margin-bottom: 50px;
+		img {
+			max-width: 100%;
+			height: auto;
+			margin: 15px auto;
+		}
+	}
+	.post-metadata {
+		background: @black1;
+		color: #fff;
+		padding: 2px 9px;
+		font-size: .8em;
+	}
+
+}
+
+.legend {
+	margin: 10px 0 15px;
+}
+
+.legendItem {
+	font-family: @fontMittel;
+	font-size: 0.8em;
+	display: inline-block;
+	.icon {
+		width: 18px;
+		height: 20px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.deelnemerOverzicht {
+
+	.deelnemer {
+		position: relative;
+		min-height: 116px;
+		border-bottom: 1px solid @grey2;
+		padding: 20px 0;
+		font-family: @fontMittel;
+		.naam {
+			font-size: 1.4em;
+			margin-bottom: 5px;
+		}
+	}
+	.photoHolder {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		margin-top: -38px;
+		img {
+			.RoundedCorners(50%);
+			width: 76px;
+			height: 76px;
+		}
+	}
+	.contentHolder {
+		margin-top: 10px;
+		padding-left: 90px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.details {
+		> * {
+			width: auto;
+			display: inline-block;
+			font-size: 1.3em;
+			&:not(:last-child) {
+				margin-right: 15px;
+			}
+		}
+		.detail {
+			position: relative;
+			line-height: 20px;
+			padding-left: 25px;
+			&:before {
+				position: absolute;
+				left: 0;
+				top: 0;
+				content: ' ';
+				text-align: right;
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				margin-right: 5px;
+			}
+			&:not(:first-child):before {
+				left: 5px;
+			}
+		}
+		.doel:before {
+			background: url("../img/icons/goal.png") no-repeat;
+			background-size: cover;
+		}
+		.bedrag:before {
+			background: url("../img/icons/coins.png") no-repeat;
+			background-size: contain;
+		}
+		.sponsor {
+			display: block;
+			padding: 10px 0 0;
+			text-decoration: none;
+		}
+	}
+}
+
+.sendHupWrapper {
+	display: none;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	color: #fff;
+	padding: 0 6px 6px;
+	z-index: 100;
+
+	overflow: hidden;
+	&.active {
+		position: absolute;
+		overflow: scroll;
+		top: -160px;
+			width:100%;
+		bottom: inherit;
+		background: @secondaryColor;
+		.inner {
+			.NoShadow;
+			position: absolute;
+			background: @secondaryColor;
+			.NoRoundedCorners;
+		}
+	}
+	.inner {
+		background: @primaryColor;
+		.Shadow(0, 3px, 7px, rgba(0, 0, 0, .5));
+		width: 100%;
+		padding: 7px 20px;
+		left: 0;
+		.RoundedCorners(6px);
+	}
+
+}
+
+.closeHupFormTrigger {
+	display: none;
+	position: absolute;
+	top: 5px;
+	right: 17px;
+}
+
+.sendHupTrigger {
+	text-align: center;
+	font-size: 1.3em;
+	text-transform: uppercase;
+}
+
+.hupFormWrapper {
+	display: none;
+	margin-top: 10px;
+	width: 100%;
+	input, textarea, select {
+		width: 100%;
+		border-color: @grey2;
+		background: #fff;
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
+	input[type="submit"] {
+		height: 45px;
+		display: table;
+		margin: 0 auto;
+		font-weight: bold;
+		color: #fff;
+		font-size: 1.3em;
+		background: @primaryColor url("../img/icons/send.png") no-repeat right 20px center;
+		background-size: 30px;
+		border: none;
+	}
+	.feedback {
+		margin: -10px 0 10px;
+	}
+}
+
+input, textarea, select {
+	border: none;
+	font-family: @fontMittel;
+	border-bottom: 1px solid @grey2;
+	padding: 5px;
+	&:focus {
+		outline: none;
+	}
+}
+
+.textareaHolder {
+	overflow-y: auto;
+	margin-bottom: 10px;
+	max-height: 80px;
+	textarea {
+		width: 100%;
+		height: 100%;
+		resize: none;
+	}
+}
+
+.filterInput {
+	margin: 0 0 20px;
+	position: relative;
+	input {
+		width: 100%;
+		font-size: 1.2em;
+		background: @grey5;
+	}
+	.exitFilterModus {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		width: 25px;
+		height: 25px;
+	}
+}
+
+.deelnemerOverzichtWrapper.active {
+	background: #fff;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 101;
+	min-height: 100%;
+	left: 0;
+	overflow: scroll;
+	.filterInput {
+		margin-bottom: 0;
+		.exitFilterModus {
+			width: 30px;
+			height: 30px;
+			top: 20px;
+			right: 20px;
+		}
+	}
+	input {
+		padding: 1em;
+		font-size: 1.4em;
+	}
+	.legend {
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-bottom: 0;
+	}
+	.deelnemerOverzicht {
+		overflow-y: auto;
+		padding: 20px 15px 0;
+	}
+}
+
+.noItemsFound {
+	display: none;
+	font-size: 1.2em;
+	padding: 20px 15px 0;
+}
+
+.hupOverview {
+	margin-top: 20px;
+	font-family: @fontMittel;
+	padding: 0 20px;
+}
+
+.hupItem {
+	position: relative;
+	padding: 15px 10px;
+	background: @colorHupItem;
+	margin-bottom: 10px;
+	font-weight: bold;
+	width: 90%;
+	font-size: 1.1em;
+	.header {
+		border-bottom: 1px solid @colorHupItemBorder;
+		color: @fourthColor;
+		padding-bottom: 10px;
+	}
+	.triangle {
+		.triangle(right, 12px, 8px, @fourthColor);
+		display: inline-block;
+		margin: 0 5px;
+	}
+	.participant {
+		&:before {
+			margin-right: 1px;
+			content: " ";
+			display: inline-block;
+			width: 35px;
+			height: 15px;
+			background: url("@{imgDir}/icons/bike-yellow.png") no-repeat;
+			background-size: contain;
+			vertical-align: middle;
+		}
+	}
+	.content {
+		padding-top: 10px;
+	}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: 10px;
+		left: -20px;
+		width: 0;
+		height: 0;
+		-moz-transform: scale(.9999);
+		border-top: 20px solid transparent;
+		border-bottom: 0 solid transparent;
+		border-right: 22px solid @colorHupItem;
+		.Rotate(-5deg);
+	}
+	&.participantHup {
+		margin-left: auto;
+		.header {
+			color: @primaryColor;
+		}
+		&:after {
+			right:-20px;
+			left:inherit;
+			border-left: 22px solid @colorHupItem;
+			border-right: none;
+		}
+		.sender {
+			&:before {
+				margin-right: 1px;
+				content: " ";
+				display: inline-block;
+				width: 35px;
+				height: 15px;
+				background: url("@{imgDir}/icons/bike-red.png") no-repeat;
+				background-size: contain;
+				vertical-align: middle;
+
+			}
+		}
+	}
+}

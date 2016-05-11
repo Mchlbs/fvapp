@@ -1,0 +1,322 @@
+/********** LESS VARIABLES ********************************************/
+
+@imgDir: '../img';
+@fontDir: '../fonts';
+
+/* === Colors ============================== */
+
+@primaryColor: #e2001a;
+@secondaryColor: #faba00;
+@thirdColor: #a5a6a7;
+@fourthColor: #fbba0d;
+
+@grey1: #ececec;
+@grey2: #cac9c9;
+@grey3: #b8b8b8;
+@grey4: #878787;
+@grey5: #f6f6f6;
+@grey6: #E6E6E6;
+
+@black1: #231E1E;
+
+@primaryBackground: @grey5;
+
+@formInvalid: #f09999;
+@formFeedbackErr: #f00909;
+@formFeedbackSuc: #72dd70;
+
+@colorInfoBlock: @grey6;
+@colorHupItem: #fff;
+@colorHupItemBorder: @grey1;
+
+/* === Fonts =============================== */
+
+@font-face {
+	font-family: 'mittelschrift';
+	src: url('@{fontDir}/din1451alt-webfont.eot');
+	src: url('@{fontDir}/din1451alt-webfont.eot?#iefix') format('embedded-opentype'),
+	url('@{fontDir}/din1451alt-webfont.woff2') format('woff2'),
+	url('@{fontDir}/din1451alt-webfont.woff') format('woff'),
+	url('@{fontDir}/din1451alt-webfont.ttf') format('truetype'),
+	url('@{fontDir}/din1451alt-webfont.svg#alte_din_1451_mittelschriftRg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+
+}
+
+@fontStack: Arial, Helvetica, sans-serif;
+@fontMittel: 'mittelschrift', @fontStack;
+@fontSize: 15px;
+@fontColor: #3d3d3c;
+@lineHeight: 1.5em;
+
+/* === Mixin default parameters ============ */
+
+@TxtShadowOffsetX: 1px;
+@TxtShadowOffsetY: 1px;
+@TxtShadowBlur: 1px;
+@TxtShadowColor: rgba(0, 0, 0, 0.2);
+
+@defaultRadius: 6px;
+
+@defaultShadowOffsetX: 0;
+@defaultShadowOffsetY: 0;
+@defaultShadowBlur: 10px;
+@defaultShadowColor: rgba(0, 0, 0, 0.67); /* #545454 */
+
+@defaultButBgColor: @primaryColor;
+@defaultButBgHover: darken(@primaryColor, 10%);
+
+/********** LESS MIXINS ***********************************************/
+
+/* === Helper classes ====================== */
+
+/* Useful for adding the clearfix to elements which are generated */
+.Clearfix {
+	&:before, &:after {
+		content: "\0020";
+		display: block;
+		height: 0;
+		overflow: hidden;
+	}
+
+	&:after {
+		clear: both;
+	}
+
+	zoom: 1;
+}
+
+.Opacity(@decimal, @percentage) {
+	opacity: @decimal;
+	filter: alpha(opacity=@percentage);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{percentage})"; /* IE8 */
+}
+
+.AbbrText {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.NoVisualList {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+/* === CSS3 vendor-specific ================ */
+
+.Css3Pie {
+	behavior: url('mysite/javascript/PIE.htc');
+}
+
+.NoCss3Pie {
+	behavior: none;
+}
+
+.RoundedCorners(@radius: @defaultRadius) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	-o-border-radius: @radius;
+	border-radius: @radius;
+	.Css3Pie;
+}
+
+.NoRoundedCorners {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+
+.Shadow(@offsetX: @defaultShadowOffsetX, @offsetY: @defaultShadowOffsetY, @blur: @defaultShadowBlur, @color: @defaultShadowColor) {
+	-moz-box-shadow: @offsetX @offsetY @blur @color;
+	-webkit-box-shadow: @offsetX @offsetY @blur @color;
+	-o-box-shadow: @offsetX @offsetY @blur @color;
+	box-shadow: @offsetX @offsetY @blur @color;
+	.Css3Pie;
+}
+
+.ShadowInner(@offsetX: @defaultShadowOffsetX, @offsetY: @defaultShadowOffsetY, @blur: @defaultShadowBlur, @color: @defaultShadowColor) {
+	-moz-box-shadow: inset @offsetX @offsetY @blur @color;
+	-webkit-box-shadow: inset @offsetX @offsetY @blur @color;
+	-o-box-shadow: inset @offsetX @offsetY @blur @color;
+	box-shadow: inset @offsetX @offsetY @blur @color;
+	.Css3Pie;
+}
+
+.NoShadow {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	-o-box-shadow: none;
+	box-shadow: none;
+}
+
+.Gradient(@direction, @startColor, @endColor) {
+	/* @direction can be top or left */
+	background: @startColor; /* Fallback for non-CSS3 browsers */
+	background: -webkit-gradient(linear, @direction, from(@startColor), to(@endColor)); /* Old Webkit */
+	background: -webkit-linear-gradient(@direction, @startColor, @endColor); /* New Webkit */
+	background: -moz-linear-gradient(@direction, @startColor, @endColor); /* Gecko */
+	background: -ms-linear-gradient(@direction, @startColor, @endColor); /* IE10 */
+	background: -o-linear-gradient(@direction, @startColor, @endColor); /* Opera 11.10+ */
+	background: linear-gradient(@direction, @startColor, @endColor); /* Future CSS3 browsers */
+	-pie-background: linear-gradient(@direction, @startColor, @endColor); /* PIE */
+	.Css3Pie;
+}
+
+.GradientFourSteps(@direction, @startPos, @startColor, @middleTopPos, @middleTopColor, @middleBottomPos, @middleBottomColor, @endPos, @endColor) {
+	background: @startColor; /* Fallback for non-CSS3 browsers */
+	background: -webkit-gradient(linear, @direction, color-stop(@startPos, @startColor), color-stop(@middleTopPos, @middleTopColor), color-stop(@middleBottomPos, @middleBottomColor), color-stop(@endPos, @endColor)); /* Old Webkit */
+	background: -webkit-linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* New Webkit */
+	background: -moz-linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* Gecko */
+	background: -ms-linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* IE10 */
+	background: -o-linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* Opera 11.10+ */
+	background: linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* Future CSS3 browsers */
+	-pie-background: linear-gradient(@direction, @startColor percentage(@startPos / 100), @middleTopColor percentage(@middleTopPos / 100), @middleBottomColor percentage(@middleBottomPos / 100), @endColor percentage(@endPos / 100)); /* PIE */
+	.Css3Pie;
+}
+
+.NoGradient {
+	background: none;
+	-pie-background: none;
+}
+
+.TextShadow(@offsetX: @defaultTxtShadowOffsetX, @offsetY: @defaultTxtShadowOffsetY, @blur: @defaultTxtShadowBlur, @color: @defaultTxtShadowColor) {
+	text-shadow: @offsetX @offsetY @blur @color;
+
+	/* Looks ugly... */
+	/*filter: dropshadow(color=@{color}, offx=@{offsetX}, offy=@{offsetY});*/
+	.Css3Pie;
+}
+
+.NoTextShadow {
+	text-shadow: none;
+	filter: -
+}
+
+.Rotate(@amount) {
+	-moz-transform: rotate(@amount);
+	-webkit-transform: rotate(@amount);
+	-o-transform: rotate(@amount);
+	-ms-transform: rotate(@amount);
+	transform: rotate(@amount);
+}
+
+.NoRotate {
+	-moz-transform: none;
+	-webkit-transform: none;
+	-o-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+
+.PlaceholderColor(@color, @opacity) {
+	::-webkit-input-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	:-moz-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	/* Firefox 18- */
+	::-moz-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+	/* Firefox 19+ */
+	:-ms-input-placeholder {
+		color: @color;
+		opacity: @opacity;
+	}
+}
+
+.Transition(@property, @duration, @easing, @delay) {
+	-webkit-transition: @property @duration @easing @delay;
+	-moz-transition: @property @duration @easing @delay;
+	-o-transition: @property @duration @easing @delay;
+	-ms-transition: @property @duration @easing @delay;
+	transition: @property @duration @easing @delay;
+}
+
+.triangle-base() {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	-moz-transform: scale(.9999);
+}
+
+.triangle(@direction, @size, @color) {
+	.triangle(@direction, @size * 2, @size, @color);
+}
+
+.triangle(@direction, @width, @height, @color) when (@direction = up) {
+	.triangle-base();
+	border-left: (@width / 2) solid transparent;
+	border-right: (@width / 2) solid transparent;
+	border-bottom: @height solid @color;
+}
+
+.triangle(@direction, @width, @height, @color) when (@direction = down) {
+	.triangle-base();
+	border-left: (@width / 2) solid transparent;
+	border-right: (@width / 2) solid transparent;
+	border-top: @height solid @color;
+}
+
+.triangle(@direction, @width, @height, @color) when (@direction = left) {
+	.triangle-base();
+	border-top: (@width / 2) solid transparent;
+	border-bottom: (@width / 2) solid transparent;
+	border-right: @height solid @color;
+}
+
+.triangle(@direction, @width, @height, @color) when (@direction = right) {
+	.triangle-base();
+	border-top: (@width / 2) solid transparent;
+	border-bottom: (@width / 2) solid transparent;
+	border-left: @height solid @color;
+}
+
+/* === Fietsenvoor specific ============== */
+
+
+@-webkit-keyframes bounceOutLeft {
+	20% {
+		opacity: 1;
+		-webkit-transform: translate3d(20px, 0, 0);
+		transform: translate3d(20px, 0, 0);
+	}
+
+	to {
+		opacity: 0;
+		-webkit-transform: translate3d(-2000px, 0, 0);
+		transform: translate3d(-2000px, 0, 0);
+	}
+}
+
+@keyframes bounceOutLeft {
+	20% {
+		opacity: 1;
+		-webkit-transform: translate3d(20px, 0, 0);
+		transform: translate3d(20px, 0, 0);
+	}
+
+	to {
+		opacity: 0;
+		-webkit-transform: translate3d(-2000px, 0, 0);
+		transform: translate3d(-2000px, 0, 0);
+	}
+}
+
+.bounceOut {
+	-webkit-animation-name: bounceOutLeft;
+	animation-name: bounceOutLeft;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
