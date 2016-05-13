@@ -17,6 +17,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+
+	<icon src="www/img/fv-icon-120.png" />
+
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
@@ -50,6 +53,7 @@
 		<icon src="www/img/fv-icons/fv-icon-50.png" width="50" height="50" />
 		<icon src="www/img/fv-icons/fv-icon-100.png" width="100" height="100" />
     </platform>
+
     <platform name="android">
         <icon src="www/img/fv-icons/fv-icon-36.png" density="ldpi" />
         <icon src="www/img/fv-icons/fv-icon-48.png" density="mdpi" />
