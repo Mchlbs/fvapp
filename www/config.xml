@@ -18,7 +18,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
 
-	<icon src="www/img/fv-icon-120.png" />
+	<icon src="icon.png" />
 
     <platform name="android">
         <allow-intent href="market:*" />
