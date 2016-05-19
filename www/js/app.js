@@ -653,11 +653,12 @@ function getParticipantsDropdownOptions()
 		var participants = jsonData.Participants;
 		if (participants && participants !== 'undefined')
 		{
-			var html = '';
+			var html = '<optgroup label=""><option value="Alle helden">Alle helden</option></optgroup><optgroup label="">';
 			$(participants).each(function (i, val)
 			{
 				html += '<option value="' + val.Voornaam + '">' + val.Name + '</option>'
 			});
+			html += '</optgroup>';
 			return html;
 		}
 	}
