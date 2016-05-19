@@ -1,0 +1,385 @@
+@import "variables.less";
+
+* {
+	box-sizing: border-box;
+}
+
+.clear:after {
+	display: table;
+	content: " ";
+	clear: both;
+}
+
+body {
+	font-family: @fontStack;
+	font-size: @fontSize;
+	color: @fontColor;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-rendering: auto;
+}
+
+h1, h2, h3, h4 {
+	font-weight: bold;
+	text-align: left;
+	line-height: 1.2em;
+}
+
+h1, h2 {
+	margin-bottom: 5px;
+}
+
+h3, h4 {
+	margin-bottom: 28px;
+}
+
+h1 {
+	font-size: 1.6em;
+	text-transform: uppercase;
+	border-left: 3px solid @primaryColor;
+	padding-left: 10px;
+}
+
+h2 {
+	font-size: 1.5em;
+	font-weight: normal;
+	color: @secondaryColor;
+	text-transform: uppercase;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+p {
+	margin: 10px 0;
+	line-height: @lineHeight;
+}
+
+.hidden{
+	display: none;
+}
+
+.mainContent {
+	position: relative;
+	overflow: hidden;
+	max-width: 100%;
+	padding-top: 109px;
+}
+
+//Screens
+.screenWrapper {
+	position: relative;
+	width: 9999px;
+}
+
+.screen {
+	float: left;
+	padding: 0 15px;
+	width: 320px;
+	padding-bottom: 80px;
+	display: none;
+	&.active {
+		overflow-y: auto;
+	}
+}
+
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+#moneycount {
+	background: @primaryColor;
+	color: #fff;
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+#button-nieuws {
+	background: url("../img/icons/megaphone-outline.png") no-repeat center center;
+	&.active {
+		background: url("../img/icons/megaphone-filled.png") no-repeat center center;
+	}
+}
+
+#button-scores {
+	background: url("../img/icons/bike-outline.png") no-repeat center center;
+	&.active {
+		background: url("../img/icons/bike-filled.png") no-repeat center center;
+	}
+}
+
+#button-hup {
+	background: url("../img/icons/cheer-outline.png") no-repeat center center;
+	&.active {
+		background: url("../img/icons/cheer-filled.png") no-repeat center center;
+	}
+}
+
+.appHeader {
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}
+
+.menu {
+	.menu-button {
+		position: relative;
+		float: left;
+		width: 33.333333%;
+		font-size: 1em;
+		background-color: #DCE1E1 !important;
+		text-align: center;
+		height: 70px;
+		.Transition(all, .3s, ease, 0s);
+		&.active {
+			-webkit-filter: invert(1);
+			filter: invert(1);
+			&:after {
+				position: absolute;
+				z-index: 100;
+				bottom: -8px;
+				left: 50%;
+				margin-left: -10px;
+				.triangle(down, 20px, 8px, #DCE1E1);
+			}
+		}
+	}
+}
+
+.icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto;
+	vertical-align: bottom;
+	&.iconSmall {
+		width: 24px;
+		height: 24px;
+	}
+	&.iconNews {
+		background: url("../img/icons/news.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconBike {
+		background: url("../img/icons/bike.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMegaphone {
+		background: url("../img/icons/megaphone.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconGoal {
+		background: url("../img/icons/goal.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconMountain {
+		background: url("../img/icons/mountain.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconCoin {
+		background: url("../img/icons/coins.png") no-repeat;
+		background-size: contain;
+	}
+	&.iconClose {
+		background: url("../img/icons/close.png") no-repeat;
+		background-size: contain;
+	}
+}
+
+.legend {
+	margin: 20px 0;
+}
+
+.legendItem {
+	.icon {
+		display: inline-block;
+	}
+}
+
+.infoBlock {
+	background: @colorInfoBlock;
+	border-left: 3px solid @secondaryColor;
+	&:not(:last-child) {
+		margin-bottom: 15px;
+	}
+	.content {
+		padding: 5px 15px;
+	}
+	.header {
+		font-size: 1.1em;
+		background: @secondaryColor;
+		color: #fff;
+		padding: 2px 15px;
+	}
+}
+
+.deelnemerOverzicht {
+	.details {
+		> * {
+			width: 31%;
+			float: left;
+		}
+		.detail {
+			position: relative;
+			line-height: 20px;
+			padding-left: 20px;
+			&:not(:last-child) {
+				border-right: 1px solid @grey1;
+			}
+			&:before {
+				position: absolute;
+				left: 0;
+				top: 0;
+				content: ' ';
+				text-align: right;
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				margin-right: 5px;
+			}
+			&:not(:first-child):before {
+				left: 5px;
+			}
+		}
+		.doel:before {
+			background: url("../img/icons/goal.png") no-repeat;
+			background-size: cover;
+		}
+		.gehaald {
+			padding-left: 30px;
+			width: 38%;
+			&:before {
+				background: url("../img/icons/mountain.png") no-repeat;
+				background-size: cover;
+			}
+		}
+		.bedrag {
+			padding-left: 35px;
+			&:before {
+				content: '\20AC';
+				width: 30px;
+				margin-right: 0;
+				background: url("../img/icons/coins.png") no-repeat;
+				background-size: contain;
+			}
+		}
+
+	}
+}
+
+.hupOverview {
+	margin-top: 20px;
+}
+
+.sendHupWrapper {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: @secondaryColor;
+	color: #fff;
+	padding: 10px 20px;
+	z-index: 100;
+	.Shadow(0, 0, 10px, rgba(0, 0, 0, .22));
+	&.active {
+		top: 0;
+	}
+
+}
+
+.sendHupTrigger {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.hupFormWrapper {
+	display: none;
+	margin-top: 10px;
+	input, textarea {
+		width: 100%;
+		border-color: @grey4;
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+	}
+	input[type="submit"] {
+		height: 45px;
+		display: table;
+		margin: 0 auto;
+		font-weight: bold;
+		color: #fff;
+		font-size: 1.3em;
+		background: @primaryColor url("../img/icons/send.png") no-repeat right 20px center;
+		background-size: 30px;
+	}
+}
+
+input, textarea {
+	border: none;
+	border-bottom: 1px solid @grey4;
+	padding: 5px;
+	&:focus {
+		outline: none;
+	}
+}
+
+.filterInput {
+	margin-bottom: 20px;
+	position: relative;
+	input {
+		width: 100%;
+		font-size: 1.2em;
+		background: @grey6;
+	}
+	.exitFilterModus {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		width: 25px;
+		height: 25px;
+	}
+}
+
+.deelnemerOverzichtWrapper.active {
+	background: #fff;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 101;
+	min-height: 100%;
+	left: 0;
+	overflow: scroll;
+	.filterInput {
+		margin-bottom: 0;
+		.exitFilterModus{
+			width:48px;
+			height:48px;
+			top:10px;
+			right:10px;
+		}
+	}
+	input {
+		padding: 1em;
+		font-size: 1.4em;
+	}
+	.deelnemerOverzicht {
+		overflow-y: auto;
+		padding: 20px 15px 0;
+	}
+}
+
+.noItemsFound {
+	display: none;
+	font-size: 1.2em;
+	padding: 20px 15px 0;
+}

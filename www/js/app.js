@@ -244,6 +244,9 @@ function submitHup(e) //CallBack: onSubmitHup
 	var sParticipant = $('.hupFormWrapper #participant').val();
 	var sMessage = $('.hupFormWrapper #hupMessage').val();
 
+	sName = sanitizeUserInput(sName);
+	sMessage = sanitizeUserInput(sMessage);
+
 	// check
 	$('.hupFormWrapper .feedback').remove();
 	var everythingIsOk = true;
@@ -295,6 +298,15 @@ function onSubmitHup(success)
 
 		//alert("HALLO!");
 	}
+}
+
+function sanitizeUserInput(userInput)
+{
+	userInput = userInput.replace(/([&])/g, 'en');
+
+	userInput = userInput.replace(/([^a-zA-Z0-9:();\-?! .,])/g, '');
+
+	return userInput;
 }
 
 /**************************************************************************/
