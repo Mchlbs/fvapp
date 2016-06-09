@@ -268,6 +268,8 @@ function submitHup(e) //CallBack: onSubmitHup
 
 	if (!everythingIsOk) return;
 
+	localStorage.setItem('username', sName);
+
 	var sExtraGetString = 'sndr=' + sName + '&part=' + sParticipant + '&msg=' + sMessage;
 
 	url = BASE_URL + '/insertHup?' + sExtraGetString;
@@ -409,6 +411,9 @@ function onParticipantsLoaded(jsonData)
 
 $(document).ready(function ()
 {
+	var username = localStorage.getItem('username') || null;
+	jQuery('.hupFormWrapper #name').val(username);
+
 	setScreenDimensions();
 	$('.screen').fadeIn();
 
@@ -588,6 +593,9 @@ function openHupForm()
 	$(sendHupWrapper).closest('.screen').removeClass('active');
 	$(window).scrollTop(-999);
 	$(hupFormWrapper).fadeIn().find("input:first-child").focus();
+	if(sendHupWrapper.find('#name').val() != ''){
+		sendHupWrapper.find('#participant').focus();
+	}
 	$(closeHupFormTrigger).fadeIn();
 
 	//$(sendHupWrapper).width($(window).width());
@@ -650,6 +658,7 @@ function getParticipantsDropdownOptions()
 	jsonData = JSON.parse(jsonData);
 	if (jsonData && jsonData !== 'undefined')
 	{
+
 		var participants = jsonData.Participants;
 		if (participants && participants !== 'undefined')
 		{
