@@ -446,7 +446,7 @@ $(document).ready(function ()
 			var currentScreenID = $('.screen.active').data("screenid");
 			slideToPrevScreen(currentScreenID);
 		},
-		threshold: 75
+		threshold: 120
 	});
 
 	$('.submitHup').on('click', submitHup);
