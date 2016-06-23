@@ -329,7 +329,7 @@ function loadParticipantsFromLocalStorage() {
 		//Deelnemers/Scores laten zien
 		$('.deelnemerOverzicht').html(sHTML);
 
-		$('.hupFormWrapper #participant').append(getParticipantsDropdownOptions());
+		$('.hupFormWrapper #participant').html(getParticipantsDropdownOptions());
 	}
 
 	/** Totaalbedrag **/
@@ -662,7 +662,7 @@ function getParticipantsDropdownOptions()
 		var participants = jsonData.Participants;
 		if (participants && participants !== 'undefined')
 		{
-			var html = '<optgroup label=""><option value="Alle helden">Alle helden</option></optgroup><optgroup label="">';
+			var html = '<option disabled value="">Deelnemer</option><optgroup label=""><option value="Alle helden">Alle helden</option></optgroup><optgroup label="">';
 			$(participants).each(function (i, val)
 			{
 				html += '<option value="' + val.Name + '">' + val.Name + '</option>'
